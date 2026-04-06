@@ -1,0 +1,84 @@
+import type { MetadataRoute } from "next";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
+
+const BASE_URL = "https://veloratransfer.com";
+const locales = ["tr", "en", "de", "pl", "ru"];
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const { data: regions } = await supabase
+    .from("regions")
+    .select("slug")
+    .eq("is_active", true);
+
+  const { data: blogPosts } = await supabase
+    .from("blog_posts")
+    .select("slug, published_at")
+    .eq("is_published", true);
+
+  const entries: MetadataRoute.Sitemap = [];
+
+  // Homepage for each locale
+  for (const locale of locales) {
+    entries.push({
+      url: `${BASE_URL}/${locale}`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 1,
+    });
+  }
+
+  // Static pages
+  const staticPages = [
+    "about",
+    "contact",
+    "faq",
+    "regions",
+    "booking",
+    "blog",
+    "privacy",
+    "terms",
+    "cookies",
+    "cancellation",
+  ];
+  for (const locale of locales) {
+    for (const page of staticPages) {
+      entries.push({
+        url: `${BASE_URL}/${locale}/${page}`,
+        lastModified: new Date(),
+        changeFrequency: "weekly",
+        priority: 0.8,
+      });
+    }
+  }
+
+  // Region pages — highest SEO value
+  for (const locale of locales) {
+    for (const region of regions ?? []) {
+      entries.push({
+        url: `${BASE_URL}/${locale}/${region.slug}-transfer`,
+        lastModified: new Date(),
+        changeFrequency: "weekly",
+        priority: 0.9,
+      });
+    }
+  }
+
+  // Blog posts
+  for (const locale of locales) {
+    for (const post of blogPosts ?? []) {
+      entries.push({
+        url: `${BASE_URL}/${locale}/blog/${post.slug}`,
+        lastModified: post.published_at ? new Date(post.published_at) : new Date(),
+        changeFrequency: "monthly",
+        priority: 0.7,
+      });
+    }
+  }
+
+  return entries;
+}
