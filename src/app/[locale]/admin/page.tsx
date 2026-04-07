@@ -8,6 +8,7 @@ import {
   Clock,
   ArrowUpRight,
 } from "lucide-react";
+import AdminDashboardCharts from "@/components/admin/AdminDashboardCharts";
 
 export default async function AdminDashboard() {
   const supabase = createAdminClient();
@@ -260,6 +261,9 @@ export default async function AdminDashboard() {
           </table>
         </div>
       </div>
+
+      {/* Charts & Analytics */}
+      <AdminDashboardCharts />
     </div>
   );
 }

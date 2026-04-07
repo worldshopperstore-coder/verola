@@ -30,7 +30,7 @@ export default async function LocaleLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} className={`${inter.variable} h-full`} suppressHydrationWarning>
+    <html lang={locale} className={`${inter.variable} h-full`} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body className="min-h-full flex flex-col font-sans antialiased" style={{ backgroundColor: '#111113', color: '#f5f5f7' }} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           {children}

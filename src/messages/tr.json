@@ -20,7 +20,12 @@
     "title": "Antalya Havalimanı VIP Transfer",
     "subtitle": "Konforlu, güvenli ve profesyonel transfer hizmeti ile tatilinize lüks bir başlangıç yapın.",
     "badge": "7/24 Hizmet",
-    "exploreRegions": "Bölgeleri Keşfet >"
+    "exploreRegions": "Bölgeleri Keşfet >",
+    "startingFrom": "'den başlayan fiyatlar",
+    "service": "Hizmet",
+    "flightTracking": "Uçuş Takibi",
+    "service247": "7/24 Hizmet",
+    "fixedPrice": "Sabit Fiyat"
   },
   "booking": {
     "title": "Transfer Rezervasyonu",
@@ -52,6 +57,8 @@
     "step1": "Transfer Bilgileri",
     "step2": "Araç Seçimi",
     "step3": "Bilgiler & Ödeme",
+    "step4": "Ödeme",
+    "paymentSecureNote": "Ödeme bilgileriniz Stripe tarafından güvenli bir şekilde işlenir. Kart bilgileriniz sunucularımızda saklanmaz.",
     "firstName": "Ad",
     "lastName": "Soyad",
     "email": "E-posta",
@@ -78,7 +85,41 @@
     "placeholderWelcomeName": "Karşılama tabelasındaki isim",
     "placeholderCoupon": "WELCOME10",
     "placeholderPhone": "+90 555 123 4567",
-    "placeholderHotel": "Otel adı veya alış adresi"
+    "placeholderHotel": "Otel adı veya alış adresi",
+    "seoHeading": "Neden Velora Transfer Tercih Ediliyor?",
+    "seoSubheading": "Antalya Havalimanı'ndan tüm tatil bölgelerine güvenli, konforlu ve zamanında VIP transfer hizmeti.",
+    "seoFlightTracking": "Uçuş Takibi",
+    "seoFlightTrackingDesc": "Uçuşunuzu gerçek zamanlı takip ediyoruz. Gecikmeli bile olsa şoförünüz sizi bekler.",
+    "seoInsured": "Lisanslı & Sigortalı",
+    "seoInsuredDesc": "Tüm araçlarımız tam lisanslı ve kapsamlı sigorta ile güvence altındadır.",
+    "seoSecurePayment": "Güvenli Ödeme",
+    "seoSecurePaymentDesc": "Stripe altyapısı ile SSL şifreli, güvenli kredi kartı ödemesi.",
+    "seo247": "7/24 Destek",
+    "seo247Desc": "Uçuş öncesi, sırası ve sonrasında WhatsApp veya telefon ile bize ulaşabilirsiniz.",
+    "seoDoorToDoor": "Kapıdan Kapıya",
+    "seoDoorToDoorDesc": "Havalimanı çıkışından otelinizin kapısına kadar özel VIP transfer.",
+    "seoNoHidden": "Gizli Ücret Yok",
+    "seoNoHiddenDesc": "Rezervasyon sırasında gördüğünüz fiyat, ödeyeceğiniz fiyattır. Sürpriz yok.",
+    "seoFaqTitle": "Sık Sorulan Sorular",
+    "seoFaq1Q": "Antalya Havalimanı transferi nasıl çalışıyor?",
+    "seoFaq1A": "Online rezervasyon yaptıktan sonra uçuşunuz takip edilir. Havalimanına indiğinizde şoförünüz isim tabelası ile sizi karşılar ve doğrudan otelinize götürür.",
+    "seoFaq2Q": "Ücretsiz iptal mümkün mü?",
+    "seoFaq2A": "Evet, transferinizden 24 saat öncesine kadar ücretsiz iptal edebilirsiniz. Tam iade yapılır.",
+    "seoFaq3Q": "Hangi bölgelere transfer yapılıyor?",
+    "seoFaq3A": "Belek, Kemer, Alanya, Side, Lara, Kundu, Kaş, Manavgat, Konyaaltı ve daha birçok bölgeye VIP transfer hizmeti sunuyoruz.",
+    "seoFaq4Q": "Gece uçuşları için ek ücret var mı?",
+    "seoFaq4A": "22:00-06:00 arası uçuşlar için %15 gece tarifesi uygulanır. Bu ücret rezervasyon sırasında otomatik hesaplanır.",
+    "seoTextBlock": "VELORA Transfer, Antalya Havalimanı (AYT) ile Belek, Kemer, Side, Alanya, Lara, Kundu, Kaş, Manavgat ve diğer tüm tatil bölgeleri arasında premium VIP transfer hizmeti sunmaktadır. Mercedes Vito araçlarımız ile konforlu, güvenli ve zamanında ulaşım sağlıyoruz. Online rezervasyon, Stripe güvenli ödeme, ücretsiz iptal ve 7/24 destek ile hizmetinizdeyiz.",
+    "optional": "opsiyonel",
+    "extras": "Ekstralar",
+    "free": "ÜCRETSİZ",
+    "processing": "İşleniyor...",
+    "selectRegionForPrice": "Fiyat görmek için bölge seçin",
+    "couponAppliedSuccess": "Kupon uygulandı!",
+    "couponInvalid": "Geçersiz veya süresi dolmuş kupon",
+    "trustSecure": "Stripe ile güvenli ödeme",
+    "trustCancel": "24 saat öncesine kadar ücretsiz iptal",
+    "trustNoHidden": "Gizli ücret yok"
   },
   "trust": {
     "heading": "Neden yolcular Velora'yı tercih ediyor.",
@@ -201,7 +242,12 @@
     "feature3Title": "Çok Dilli Destek",
     "feature3Desc": "7/24 Türkçe, İngilizce, Almanca, Lehçe ve Rusça destek. İhtiyacınız olduğunda size yardımcı olmak için buradayız.",
     "feature4Title": "Tam Lisanslı & Sigortalı",
-    "feature4Desc": "Tüm araçlarımız düzenli olarak denetlenir, lisanslıdır ve tam kapsamlı yolcu sigortası taşır."
+    "feature4Desc": "Tüm araçlarımız düzenli olarak denetlenir, lisanslıdır ve tam kapsamlı yolcu sigortası taşır.",
+    "trustStripePayments": "Güvenli Stripe Ödeme",
+    "trustInsured": "Tam Sigortalı Transferler",
+    "trustFlightTracking": "Canlı Uçuş Takibi",
+    "trustFreeCancellation": "24s Öncesine Kadar Ücretsiz İptal",
+    "trustSince": "2022'den beri hizmet veriyoruz"
   },
   "contact": {
     "title": "İletişim",
@@ -224,7 +270,9 @@
     "successTitle": "Mesaj Gönderildi!",
     "successDesc": "Bizimle iletişime geçtiğiniz için teşekkürler. En kısa sürede size döneceğiz.",
     "errorSendFailed": "Mesaj gönderilemedi",
-    "errorGeneric": "Bir hata oluştu"
+    "errorGeneric": "Bir hata oluştu",
+    "responseTime": "Ortalama yanıt süresi: 30 dakikadan az",
+    "checkFaq": "Hızlı yanıtlar için SSS sayfamızı kontrol edin"
   },
   "faq": {
     "title": "SSS",
@@ -253,7 +301,10 @@
     "q11": "Hangi bölgelere transfer yapıyorsunuz?",
     "a11": "Antalya Havalimanı'ndan Belek, Side, Alanya, Kemer, Kaş, Fethiye, Marmaris ve 25+ bölgeye transfer hizmeti sunuyoruz.",
     "q12": "Gece geç saatte uçuşum var, transfer mümkün mü?",
-    "a12": "Evet, 7/24 transfer hizmeti sunuyoruz. Gece uçuşları için de şoförünüz hazır bekliyor olacaktır."
+    "a12": "Evet, 7/24 transfer hizmeti sunuyoruz. Gece uçuşları için de şoförünüz hazır olacaktır.",
+    "stillNeedHelp": "Hala sorularınız mı var?",
+    "stillNeedHelpDesc": "Ekibimiz transferinizle ilgili her türlü sorunuz için 7/24 yardımcı olmaya hazır.",
+    "contactUs": "Bize Ulaşın"
   },
   "regionDetail": {
     "home": "Ana Sayfa",
@@ -293,7 +344,20 @@
     "faqA4": "Şoförünüz varış salonunda isim tabelasıyla karşılayacak. Rezervasyon sonrası şoför bilgileri ve QR kodu gönderilir.",
     "readyToBook": "{name} Transferinizi Rezerve Etmeye Hazır mısınız?",
     "readyDesc": "Sabit fiyat, profesyonel şoförler, havalimanında karşılama.",
-    "bookNow": "Şimdi Rezerve Et"
+    "bookNow": "Şimdi Rezerve Et",
+    "fromPrice": "Başlangıç Fiyatı",
+    "oneWay": "Tek Yön",
+    "roundTrip": "Gidiş-Dönüş",
+    "perVehicle": "araç başı",
+    "aboutRegion": "{name} Hakkında",
+    "aboutDescDefault": "{name}, Antalya'nın en popüler tatil bölgelerinden biridir. Antalya Havalimanı'ndan sadece {duration} dakika mesafede bulunan {name}, her yıl binlerce turisti ağırlamaktadır. VELORA VIP transfer hizmeti ile havalimanından {name}'e konforlu, güvenli ve sabit fiyatlı ulaşım sağlayabilirsiniz.",
+    "highlightDistance": "Havalimanına {distance} km mesafe",
+    "highlightDuration": "Yaklaşık {duration} dakika sürüş",
+    "highlightAvailable": "7/24 transfer hizmeti",
+    "highlightMeetGreet": "Havalimanında isimlikle karşılama",
+    "otherDestinations": "Diğer Popüler Destinasyonlar",
+    "viewTransfer": "Transfer Detayı",
+    "imageAlt": "Antalya Havalimanı'ndan {name}'e VIP transfer"
   },
   "footer": {
     "company": "Şirket",
@@ -347,7 +411,9 @@
     "publishedOn": "Yayınlanma tarihi",
     "noPosts": "Henüz blog yazısı yok. Yakında tekrar kontrol edin!",
     "shareArticle": "Bu yazıyı paylaş",
-    "relatedPosts": "İlgili Yazılar"
+    "relatedPosts": "İlgili Yazılar",
+    "popularTransfers": "Popüler Transferler",
+    "bookTransfer": "Transfer Rezerve Et"
   },
   "terms": {
     "title": "Yasal",
@@ -455,7 +521,8 @@
     "step2": "Transferinize bir şoför atanacak. WhatsApp üzerinden bilgilendirileceksiniz.",
     "step3": "Şoförünüz Antalya Havalimanı varış katında isim tabelasıyla sizi bekliyor olacak.",
     "whatsappSupport": "WhatsApp Destek",
-    "emailSupport": "E-posta Destek"
+    "emailSupport": "E-posta Destek",
+    "downloadVoucher": "PDF Voucher İndir"
   },
   "bookingCancel": {
     "title": "Ödeme İptal Edildi",
@@ -463,5 +530,32 @@
     "reference": "Referans",
     "tryAgain": "Tekrar Dene",
     "whatsappSupport": "WhatsApp Destek"
+  },
+  "homeFaq": {
+    "badge": "Sık Sorulan Sorular",
+    "heading": "Merak Ettikleriniz",
+    "subheading": "Transfer hizmetimiz hakkında en çok sorulan sorular",
+    "q1": "Antalya Havalimanı transferi nasıl çalışır?",
+    "a1": "Rezervasyonunuzu online olarak yaparsınız, uçuşunuzu takip ederiz ve sizi havalimanında isim tabelası ile karşılarız. Doğrudan otel veya adresinize götürürüz.",
+    "q2": "Transfer ücreti ne kadar?",
+    "a2": "Fiyatlar bölgeye göre değişir. Kundu-Lara 35$'dan, Belek 40$'dan, Side 55$'dan, Alanya 75$'dan başlar. Tüm fiyatlara araç, şoför, yakıt ve sigorta dahildir.",
+    "q3": "Uçuşum rötar yaparsa ne olur?",
+    "a3": "Uçuşunuzu anlık olarak takip ediyoruz. Gecikme durumunda şoförünüz sizi beklemeye devam eder, ek ücret alınmaz.",
+    "q4": "Hangi araçlarla transfer yapılıyor?",
+    "a4": "Mercedes Vito VIP araçlarla hizmet veriyoruz. Araçlarımızda Wi-Fi, klima, USB şarj, su ikramı ve deri koltuklar mevcuttur.",
+    "q5": "Çocuk koltuğu sağlıyor musunuz?",
+    "a5": "Evet, rezervasyon sırasında çocuk koltuğu talep edebilirsiniz. Ücretsiz olarak sağlanmaktadır.",
+    "q6": "Ödemeyi nasıl yapabilirim?",
+    "a6": "Online kredi kartı ile güvenli ödeme yapabilirsiniz. Stripe altyapısı ile tüm kartlar kabul edilmektedir."
+  },
+  "localSeo": {
+    "heading": "Antalya Havalimanı VIP Transfer Hizmeti",
+    "paragraph1": "VELORA Transfer, Antalya Havalimanı'ndan (AYT) Belek, Side, Alanya, Kemer, Kundu-Lara, Kaş, Fethiye, Marmaris ve çevresindeki tüm tatil bölgelerine profesyonel VIP transfer hizmeti sunmaktadır. 7/24 hizmet, uçuş takibi ve sabit fiyat garantisi ile konforlu seyahat deneyimi.",
+    "paragraph2": "Antalya havalimanı transfer hizmetimiz, lisanslı ve sigortalı araçlarla sunulmaktadır. Mercedes Vito VIP araçlarımızda Wi-Fi, klima, USB şarj noktaları ve su ikramı bulunur. Profesyonel şoförlerimiz İngilizce, Almanca ve Rusça konuşabilmektedir.",
+    "paragraph3": "Belek golf otelleri transferi, Side antik kent transferi, Alanya sahil bölgesi transferi, Kemer doğa tatil transferi — tüm popüler Antalya tatil destinasyonlarına hızlı ve güvenli ulaşım. Havalimanından otelinize veya otelinizden havalimanına kapıdan kapıya özel transfer.",
+    "feat1": "Uçuş Takip Sistemi",
+    "feat2": "Lisanslı & Sigortalı",
+    "feat3": "4.9 Müşteri Puanı",
+    "feat4": "25+ Destinasyon"
   }
 }

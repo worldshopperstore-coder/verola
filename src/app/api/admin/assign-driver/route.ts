@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import crypto from "crypto";
+import { notifyDriverAssigned } from "@/lib/telegram";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -76,38 +77,28 @@ export async function POST(request: NextRequest) {
     const region = reservation.regions as unknown as Record<string, string> | null;
     const customer = reservation.customers as unknown as Record<string, string> | null;
     const pickupDate = new Date(reservation.pickup_datetime);
+    // Driver voucher link
+    const voucherLink = `${process.env.NEXT_PUBLIC_SITE_URL}/api/driver-voucher?token=${linkToken}`;
+
     const waMessage = encodeURIComponent(
       `🚗 VELORA — New Transfer Assignment\n\n` +
         `📋 Code: ${reservation.reservation_code}\n` +
         `👤 Customer: ${customer?.first_name} ${customer?.last_name}\n` +
         `📍 Destination: ${region?.name_en}\n` +
-        `📅 Date: ${pickupDate.toLocaleDateString()} ${pickupDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}\n` +
-        `💰 Total: $${reservation.total_price}\n\n` +
-        `🔗 Your link (tap to see full details):\n${driverLink}`
+        `📅 Date: ${pickupDate.toLocaleDateString()} ${pickupDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}\n\n` +
+        `🔗 Driver Panel:\n${driverLink}\n\n` +
+        `📄 Voucher:\n${voucherLink}`
     );
 
     const whatsappUrl = `https://wa.me/${driver?.phone?.replace(/[^0-9]/g, "")}?text=${waMessage}`;
 
     // Send Telegram notification to admin
-    const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
-    const telegramChatId = process.env.TELEGRAM_CHAT_ID;
-    if (telegramBotToken && telegramChatId && telegramBotToken !== "placeholder") {
-      const tgMessage =
-        `🚗 Driver Assigned\n\n` +
-        `Code: ${reservation.reservation_code}\n` +
-        `Driver: ${driver?.full_name}\n` +
-        `Destination: ${region?.name_en}\n` +
-        `Date: ${pickupDate.toLocaleDateString()}`;
-
-      fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: telegramChatId,
-          text: tgMessage,
-        }),
-      }).catch(() => {});
-    }
+    notifyDriverAssigned({
+      code: reservation.reservation_code,
+      driver: driver?.full_name ?? "?",
+      destination: region?.name_en ?? "?",
+      date: pickupDate.toLocaleString("tr-TR", { timeZone: "Europe/Istanbul" }),
+    }).catch(() => {});
 
     return NextResponse.json({
       assignment,

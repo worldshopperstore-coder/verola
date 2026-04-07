@@ -20,7 +20,12 @@
     "title": "VIP Transfer z Lotniska Antalya",
     "subtitle": "Rozpocznij wakacje luksusowym, bezpiecznym i profesjonalnym transferem.",
     "badge": "Usługa 24/7",
-    "exploreRegions": "Odkryj regiony >"
+    "exploreRegions": "Odkryj regiony >",
+    "startingFrom": "od",
+    "service": "Serwis",
+    "flightTracking": "Śledzenie Lotu",
+    "service247": "24/7 Serwis",
+    "fixedPrice": "Stała Cena"
   },
   "booking": {
     "title": "Zarezerwuj Transfer",
@@ -52,6 +57,8 @@
     "step1": "Szczegóły Transferu",
     "step2": "Wybór Pojazdu",
     "step3": "Dane & Płatność",
+    "step4": "Płatność",
+    "paymentSecureNote": "Twoje dane płatnicze są bezpiecznie przetwarzane przez Stripe. Dane karty nie są przechowywane na naszych serwerach.",
     "firstName": "Imię",
     "lastName": "Nazwisko",
     "email": "E-mail",
@@ -78,7 +85,41 @@
     "placeholderWelcomeName": "Imię na tabliczce powitalnej",
     "placeholderCoupon": "WELCOME10",
     "placeholderPhone": "+90 555 123 4567",
-    "placeholderHotel": "Nazwa hotelu lub adres odbioru"
+    "placeholderHotel": "Nazwa hotelu lub adres odbioru",
+    "seoHeading": "Dlaczego warto wybrać Velora Transfer?",
+    "seoSubheading": "Bezpieczny, komfortowy i punktualny transfer VIP z lotniska w Antalyi do wszystkich kurortów.",
+    "seoFlightTracking": "Śledzenie lotów",
+    "seoFlightTrackingDesc": "Śledzimy Twój lot w czasie rzeczywistym. Kierowca czeka nawet w przypadku opóźnień.",
+    "seoInsured": "Licencjonowani i ubezpieczeni",
+    "seoInsuredDesc": "Wszystkie nasze pojazdy są w pełni licencjonowane i objęte kompleksowym ubezpieczeniem.",
+    "seoSecurePayment": "Bezpieczna płatność",
+    "seoSecurePaymentDesc": "Szyfrowana SSL, bezpieczna płatność kartą kredytową przez Stripe.",
+    "seo247": "Wsparcie 24/7",
+    "seo247Desc": "Skontaktuj się z nami przez WhatsApp lub telefon przed, w trakcie i po locie.",
+    "seoDoorToDoor": "Od drzwi do drzwi",
+    "seoDoorToDoorDesc": "Prywatny transfer VIP od wyjścia z lotniska prosto do drzwi hotelu.",
+    "seoNoHidden": "Brak ukrytych opłat",
+    "seoNoHiddenDesc": "Cena przy rezerwacji to cena, którą płacisz. Bez niespodzianek.",
+    "seoFaqTitle": "Często zadawane pytania",
+    "seoFaq1Q": "Jak działa transfer z lotniska Antalya?",
+    "seoFaq1A": "Po rezerwacji online Twój lot jest śledzony. Po lądowaniu kierowca wita Cię z tabliczką z imieniem i zabiera do hotelu.",
+    "seoFaq2Q": "Czy możliwa jest bezpłatna rezygnacja?",
+    "seoFaq2A": "Tak, możesz anulować bezpłatnie do 24 godzin przed transferem. Pełny zwrot kosztów.",
+    "seoFaq3Q": "Do jakich miejsc docelowych jeździcie?",
+    "seoFaq3A": "Oferujemy transfery VIP do Belek, Kemer, Alanya, Side, Lara, Kundu, Kaş, Manavgat, Konyaaltı i wielu innych.",
+    "seoFaq4Q": "Czy za loty nocne jest dopłata?",
+    "seoFaq4A": "Za loty między 22:00 a 06:00 naliczany jest 15% dopłata nocna. Jest to automatycznie obliczane.",
+    "seoTextBlock": "VELORA Transfer oferuje premium transfer VIP między lotniskiem Antalya (AYT) a wszystkimi kurortami, w tym Belek, Kemer, Side, Alanya, Lara, Kundu, Kaş i Manavgat. Podróżuj komfortowo i bezpiecznie naszą flotą Mercedes Vito.",
+    "optional": "opcjonalne",
+    "extras": "Dodatki",
+    "free": "BEZPŁATNIE",
+    "processing": "Przetwarzanie...",
+    "selectRegionForPrice": "Wybierz region, aby zobaczyć cenę",
+    "couponAppliedSuccess": "Kupon zastosowany!",
+    "couponInvalid": "Nieprawidłowy lub wygasły kupon",
+    "trustSecure": "Bezpieczna płatność przez Stripe",
+    "trustCancel": "Bezpłatne anulowanie 24h wcześniej",
+    "trustNoHidden": "Brak ukrytych opłat"
   },
   "trust": {
     "heading": "Dlaczego podróżni wybierają Velora.",
@@ -201,7 +242,12 @@
     "feature3Title": "Wielojęzyczne Wsparcie",
     "feature3Desc": "Wsparcie 24/7 po turecku, angielsku, niemiecku, polsku i rosyjsku. Jesteśmy tu, kiedy nas potrzebujesz.",
     "feature4Title": "W Pełni Licencjonowany & Ubezpieczony",
-    "feature4Desc": "Wszystkie pojazdy są regularnie kontrolowane, licencjonowane i posiadają pełne ubezpieczenie pasażerów."
+    "feature4Desc": "Wszystkie pojazdy są regularnie kontrolowane, licencjonowane i posiadają pełne ubezpieczenie pasażerów.",
+    "trustStripePayments": "Bezpieczne płatności Stripe",
+    "trustInsured": "W pełni ubezpieczone transfery",
+    "trustFlightTracking": "Śledzenie lotów na żywo",
+    "trustFreeCancellation": "Darmowa anulacja 24h",
+    "trustSince": "Działamy od 2022 roku"
   },
   "contact": {
     "title": "Kontakt",
@@ -224,7 +270,9 @@
     "successTitle": "Wiadomość wysłana!",
     "successDesc": "Dziękujemy za kontakt. Odpowiemy tak szybko, jak to możliwe.",
     "errorSendFailed": "Nie udało się wysłać wiadomości",
-    "errorGeneric": "Coś poszło nie tak"
+    "errorGeneric": "Coś poszło nie tak",
+    "responseTime": "Średni czas odpowiedzi: poniżej 30 minut",
+    "checkFaq": "Sprawdź nasze FAQ, aby uzyskać szybkie odpowiedzi"
   },
   "faq": {
     "title": "FAQ",
@@ -253,7 +301,10 @@
     "q11": "Do jakich regionów oferujecie transfery?",
     "a11": "Oferujemy transfer z lotniska Antalya do Belek, Side, Alanya, Kemer, Kaş, Fethiye, Marmaris i ponad 25 regionów.",
     "q12": "Mam późny lot, czy transfer jest możliwy?",
-    "a12": "Tak, oferujemy transfer 24/7. Kierowca jest gotowy i czeka również na nocne loty."
+    "a12": "Tak, oferujemy transfer 24/7. Kierowca jest gotowy i czeka również na nocne loty.",
+    "stillNeedHelp": "Masz jeszcze pytania?",
+    "stillNeedHelpDesc": "Nasz zespół jest dostępny 24/7, aby pomóc w każdej kwestii dotyczącej transferu.",
+    "contactUs": "Skontaktuj się"
   },
   "regionDetail": {
     "home": "Strona Główna",
@@ -293,7 +344,20 @@
     "faqA4": "Kierowca powita Cię w hali przylotów z tabliczką z imieniem. Po rezerwacji otrzymasz dane kierowcy i kod QR.",
     "readyToBook": "Gotowy zarezerwować transfer do {name}?",
     "readyDesc": "Stała cena, profesjonalni kierowcy, powitanie na lotnisku.",
-    "bookNow": "Zarezerwuj Teraz"
+    "bookNow": "Zarezerwuj Teraz",
+    "fromPrice": "Od",
+    "oneWay": "W jedną stronę",
+    "roundTrip": "W obie strony",
+    "perVehicle": "za pojazd",
+    "aboutRegion": "O {name}",
+    "aboutDescDefault": "{name} to jeden z najpopularniejszych regionów wakacyjnych w Antalyi. Zaledwie {duration} minut od lotniska Antalya, {name} co roku przyciąga tysiące turystów. Dzięki serwisowi VIP transfer VELORA możesz podróżować z lotniska do {name} komfortowo, bezpiecznie i w stałej cenie.",
+    "highlightDistance": "{distance} km od lotniska",
+    "highlightDuration": "Ok. {duration} min jazdy",
+    "highlightAvailable": "Całodobowy serwis transferowy",
+    "highlightMeetGreet": "Powitanie z tabliczką",
+    "otherDestinations": "Inne popularne kierunki",
+    "viewTransfer": "Zobacz transfer",
+    "imageAlt": "VIP transfer z lotniska Antalya do {name}"
   },
   "footer": {
     "company": "Firma",
@@ -347,7 +411,9 @@
     "publishedOn": "Opublikowano",
     "noPosts": "Brak wpisów na blogu. Wróć wkrótce!",
     "shareArticle": "Udostępnij artykuł",
-    "relatedPosts": "Powiązane Artykuły"
+    "relatedPosts": "Powiązane Artykuły",
+    "popularTransfers": "Popularne Transfery",
+    "bookTransfer": "Zarezerwuj transfer"
   },
   "terms": {
     "title": "Prawne",
@@ -455,7 +521,8 @@
     "step2": "Kierowca zostanie przydzielony do Twojego transferu. Zostaniesz powiadomiony przez WhatsApp.",
     "step3": "Twój kierowca będzie czekał na Ciebie na lotnisku w Antalyi z tabliczką z imieniem.",
     "whatsappSupport": "Wsparcie WhatsApp",
-    "emailSupport": "Wsparcie E-mail"
+    "emailSupport": "Wsparcie E-mail",
+    "downloadVoucher": "Pobierz voucher PDF"
   },
   "bookingCancel": {
     "title": "Płatność Anulowana",
@@ -463,5 +530,32 @@
     "reference": "Numer referencyjny",
     "tryAgain": "Spróbuj Ponownie",
     "whatsappSupport": "Wsparcie WhatsApp"
+  },
+  "homeFaq": {
+    "badge": "Najczęściej zadawane pytania",
+    "heading": "Częste Pytania",
+    "subheading": "Wszystko co musisz wiedzieć o naszym serwisie transferowym",
+    "q1": "Jak działa transfer z lotniska Antalya?",
+    "a1": "Zarezerwuj online, śledzimy Twój lot i witamy Cię na lotnisku z tabliczką z nazwiskiem. Następnie zabieramy Cię do hotelu.",
+    "q2": "Ile kosztuje transfer?",
+    "a2": "Ceny różnią się w zależności od celu. Od 35$ do Kundu-Lara, 40$ do Belek, 55$ do Side, 75$ do Alanya. Wszystkie ceny obejmują pojazd, kierowcę, paliwo i ubezpieczenie.",
+    "q3": "Co jeśli mój lot jest opóźniony?",
+    "a3": "Śledzimy Twój lot w czasie rzeczywistym. W przypadku opóźnienia kierowca będzie czekał bez dodatkowych opłat.",
+    "q4": "Jakie pojazdy są używane?",
+    "a4": "Oferujemy pojazdy Mercedes Vito VIP z Wi-Fi, klimatyzacją, ładowaniem USB, wodą i skórzanymi fotelami.",
+    "q5": "Czy zapewniacie foteliki dziecięce?",
+    "a5": "Tak, możesz poprosić o fotelik dziecięcy podczas rezerwacji. Jest zapewniany bezpłatnie.",
+    "q6": "Jak mogę zapłacić?",
+    "a6": "Możesz bezpiecznie zapłacić online kartą kredytową. Wszystkie karty są akceptowane przez system płatności Stripe."
+  },
+  "localSeo": {
+    "heading": "Usługa VIP Transfer z Lotniska Antalya",
+    "paragraph1": "VELORA Transfer świadczy profesjonalną usługę VIP transfer z lotniska Antalya (AYT) do wszystkich miejscowości turystycznych, w tym Belek, Side, Alanya, Kemer, Kundu-Lara, Kaş, Fethiye, Marmaris. Serwis 24/7, śledzenie lotów i gwarancja stałej ceny.",
+    "paragraph2": "Nasza usługa transferu z lotniska Antalya jest realizowana licencjonowanymi i ubezpieczonymi pojazdami. Nasze pojazdy Mercedes Vito VIP posiadają Wi-Fi, klimatyzację, porty USB i bezpłatną wodę. Nasi kierowcy mówią po angielsku, niemiecku i rosyjsku.",
+    "paragraph3": "Transfer do hoteli golfowych Belek, transfer do starożytnego Side, transfer na wybrzeże Alanya, transfer do kurortu Kemer — szybki i bezpieczny dostęp do wszystkich popularnych destynacji Antalya. Prywatny transfer od drzwi do drzwi.",
+    "feat1": "System Śledzenia Lotów",
+    "feat2": "Licencjonowany i Ubezpieczony",
+    "feat3": "Ocena 4.9 od Klientów",
+    "feat4": "25+ Destynacji"
   }
 }

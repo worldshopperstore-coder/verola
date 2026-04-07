@@ -11,7 +11,7 @@ export default function RegionsPreview() {
     { slug: "side", name: "Side", duration: 55, tagKey: "tagHistory" },
     { slug: "alanya", name: "Alanya", duration: 120, tagKey: "tagCoastal" },
     { slug: "kemer", name: "Kemer", duration: 40, tagKey: "tagNature" },
-    { slug: "kundu-lara", name: "Kundu · Lara", duration: 15, tagKey: "tagClosest" },
+    { slug: "kundu", name: "Kundu · Lara", duration: 15, tagKey: "tagClosest" },
     { slug: "kas", name: "Kaş", duration: 180, tagKey: "tagHidden" },
   ];
 
@@ -40,7 +40,7 @@ export default function RegionsPreview() {
           {popularRegions.map((region) => (
             <Link
               key={region.slug}
-              href={`/regions/${region.slug}`}
+              href={`/${region.slug}-transfer`}
               className="group relative flex flex-col justify-end p-6 rounded-2xl overflow-hidden min-h-[200px] transition-all duration-300 hover:scale-[1.02]"
               style={{ backgroundColor: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
             >

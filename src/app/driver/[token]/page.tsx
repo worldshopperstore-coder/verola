@@ -25,7 +25,7 @@ export default async function DriverPage({
          reservation_code, trip_type, pickup_datetime, return_datetime,
          flight_code, adults, children, luggage_count, child_seat,
          welcome_sign, welcome_name, hotel_name, hotel_address, notes,
-         total_price, status, qr_code_token,
+         status, qr_code_token,
          customers(first_name, last_name, phone, email),
          regions(name_en, name_tr, distance_km, duration_minutes)
        )`

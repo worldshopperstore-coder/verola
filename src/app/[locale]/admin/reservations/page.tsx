@@ -1,5 +1,6 @@
 import { createAdminClient } from "@/lib/supabase/admin";
 import ReservationList from "@/components/admin/ReservationList";
+import ExportButton from "@/components/admin/ExportButton";
 
 export default async function AdminReservationsPage() {
   const supabase = createAdminClient();
@@ -28,7 +29,10 @@ export default async function AdminReservationsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Reservations</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Reservations</h1>
+        <ExportButton />
+      </div>
       <ReservationList
         reservations={reservations ?? []}
         drivers={drivers ?? []}

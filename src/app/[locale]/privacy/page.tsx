@@ -1,14 +1,24 @@
 import { getTranslations } from "next-intl/server";
+import { seoAlternates, seoOpenGraph } from "@/lib/seo";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("privacy");
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "privacy" });
+  const title = `${t("heading")} | VELORA Transfer`;
+  const description = t("subtitle");
   return {
-    title: `${t("heading")} | VELORA Transfer`,
-    description: t("subtitle"),
+    title,
+    description,
+    alternates: seoAlternates(locale, "/privacy"),
+    openGraph: seoOpenGraph(locale, "/privacy", title, description),
   };
 }
 
@@ -35,7 +45,7 @@ export default async function PrivacyPage() {
           <div className="absolute inset-0">
             <div
               className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px]"
-              style={{ backgroundColor: "rgba(249,115,22,0.06)" }}
+              style={{ backgroundColor: "rgba(249,115,22,0.15)" }}
             />
           </div>
           <div className="relative max-w-3xl mx-auto px-4 text-center">

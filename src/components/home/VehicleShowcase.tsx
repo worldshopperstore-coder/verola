@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import {
@@ -10,7 +11,6 @@ import {
   Shield,
   Armchair,
   ArrowRight,
-  Car,
 } from "lucide-react";
 
 export default function VehicleShowcase() {
@@ -34,18 +34,20 @@ export default function VehicleShowcase() {
           {/* Left: Vehicle visual */}
           <div className="relative">
             <div
-              className="rounded-3xl aspect-[4/3] flex items-center justify-center overflow-hidden"
-              style={{ background: "linear-gradient(145deg, #1d1d1f 0%, #111 100%)", border: "1px solid rgba(255,255,255,0.06)" }}
+              className="rounded-3xl aspect-[4/3] overflow-hidden relative"
+              style={{ border: "1px solid rgba(255,255,255,0.06)" }}
             >
-              <div className="text-center p-10">
-                <div
-                  className="w-24 h-24 mx-auto rounded-2xl flex items-center justify-center mb-6"
-                  style={{ backgroundColor: "rgba(249,115,22,0.08)", border: "1px solid rgba(249,115,22,0.15)" }}
-                >
-                  <Car size={40} className="text-orange-400" strokeWidth={1.2} />
-                </div>
-                <p className="text-white text-2xl font-semibold tracking-tight">Mercedes Vito</p>
-                <p className="text-gray-500 text-sm mt-2">{t("vipTourer")}</p>
+              <Image
+                src="/images/vehicles/mercedes-vito-vip.png"
+                alt="Mercedes Vito VIP Transfer Vehicle - Leather seats, Wi-Fi, Climate control"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute bottom-6 left-6">
+                <p className="text-white text-xl font-semibold tracking-tight">Mercedes Vito</p>
+                <p className="text-gray-400 text-sm mt-1">{t("vipTourer")}</p>
               </div>
             </div>
           </div>
@@ -72,7 +74,8 @@ export default function VehicleShowcase() {
 
             <Link
               href="/booking"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-black text-sm font-medium rounded-full hover:bg-gray-200 transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 text-sm font-semibold rounded-full transition-all hover:brightness-110"
+              style={{ backgroundColor: '#30D158', color: '#fff' }}
             >
               {t("reserveTransfer")}
               <ArrowRight size={14} />

@@ -2,6 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
+import Image from "next/image";
+import { Shield, Plane, Clock } from "lucide-react";
 import BookingFormMini from "@/components/booking/BookingFormMini";
 
 export default function HeroSection() {
@@ -10,26 +12,53 @@ export default function HeroSection() {
 
   return (
     <section className="relative overflow-hidden" style={{ background: "linear-gradient(180deg, #000 0%, #1d1d1f 100%)" }}>
+      {/* Airport background image */}
+      <div className="absolute inset-0 opacity-[0.18]">
+        <Image
+          src="/images/antalya-airport.jpg"
+          alt=""
+          fill
+          className="object-cover"
+          sizes="100vw"
+          priority
+        />
+      </div>
       {/* Subtle radial glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full opacity-30" style={{ background: "radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 70%)" }} />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] rounded-full opacity-40" style={{ background: "radial-gradient(circle, rgba(249,115,22,0.15) 0%, transparent 70%)" }} />
 
-      <div className="relative max-w-6xl mx-auto px-6 py-20 lg:py-28">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-20 items-center">
-          {/* Left */}
-          <div>
+      <div className="relative max-w-6xl mx-auto px-6 py-16 lg:py-28">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
+          {/* Mobile: Booking form first, Desktop: second */}
+          <div className="order-2 lg:order-1">
             <p className="text-orange-400 text-sm font-medium tracking-wide mb-4">
               {t("badge")}
             </p>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.08] tracking-tight text-white mb-6">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-semibold leading-[1.08] tracking-tight text-white mb-5">
               {t("title")}
             </h1>
-            <p className="text-lg text-gray-400 leading-relaxed mb-8 max-w-lg">
+            <p className="text-base sm:text-lg text-gray-400 leading-relaxed mb-6 max-w-lg">
               {t("subtitle")}
             </p>
+            {/* Trust indicators */}
+            <div className="flex flex-wrap items-center gap-4 mb-8">
+              <span className="inline-flex items-center gap-1.5 text-xs text-gray-300">
+                <Plane size={13} className="text-orange-400" />
+                {t("flightTracking")}
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-xs text-gray-300">
+                <Clock size={13} className="text-green-400" />
+                {t("service247")}
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-xs text-gray-300">
+                <Shield size={13} className="text-blue-400" />
+                {t("fixedPrice")}
+              </span>
+            </div>
             <div className="flex flex-wrap items-center gap-3">
               <Link
                 href="/booking"
-                className="inline-flex items-center px-7 py-3 bg-white text-black text-sm font-medium rounded-full hover:bg-gray-200 transition-colors"
+                className="inline-flex items-center px-7 py-3 text-sm font-semibold rounded-full transition-all hover:brightness-110"
+                style={{ backgroundColor: '#30D158', color: '#fff' }}
               >
                 {n("bookNow")}
               </Link>
@@ -43,8 +72,8 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right: Booking form */}
-          <div className="w-full max-w-md mx-auto lg:max-w-none">
+          {/* Booking form - shows first on mobile */}
+          <div className="order-1 lg:order-2 w-full max-w-md mx-auto lg:max-w-none">
             <BookingFormMini />
           </div>
         </div>

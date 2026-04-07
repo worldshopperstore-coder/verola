@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { notifyDriverStatus } from "@/lib/telegram";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -25,10 +26,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Find assignment by token
+    // Find assignment by token with driver & vehicle info
     const { data: assignment } = await supabase
       .from("driver_assignments")
-      .select("id, reservation_id, status")
+      .select("id, reservation_id, status, drivers(full_name), vehicles(brand, model, plate_number)")
       .eq("link_token", token)
       .single();
 
@@ -39,7 +40,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Update assignment status  + timestamps
+    // Update assignment status + timestamps
     const updateData: Record<string, unknown> = { status };
     if (status === "accepted") updateData.accepted_at = new Date().toISOString();
     if (status === "picked_up") updateData.picked_up_at = new Date().toISOString();
@@ -62,25 +63,37 @@ export async function POST(request: NextRequest) {
       .update({ status: resStatusMap[status] })
       .eq("id", assignment.reservation_id);
 
-    // Send Telegram notification
-    const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
-    const telegramChatId = process.env.TELEGRAM_CHAT_ID;
-    if (telegramBotToken && telegramChatId && telegramBotToken !== "placeholder") {
-      const { data: res } = await supabase
-        .from("reservations")
-        .select("reservation_code")
-        .eq("id", assignment.reservation_id)
-        .single();
+    // Fetch reservation + customer for notifications
+    const { data: res } = await supabase
+      .from("reservations")
+      .select("reservation_code, customers(first_name, phone, email)")
+      .eq("id", assignment.reservation_id)
+      .single();
 
-      fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: telegramChatId,
-          text: `🔄 Driver Status Update\n\nCode: ${res?.reservation_code}\nNew Status: ${status}`,
-        }),
-      }).catch(() => {});
-    }
+    // Log status change in notification_log
+    const cust = Array.isArray(res?.customers) ? res.customers[0] : res?.customers;
+    await supabase.from("notification_log").insert({
+      type: "driver_status_update",
+      channel: "system",
+      recipient: cust?.email ?? "unknown",
+      content: `Driver status changed to ${status} for reservation ${res?.reservation_code}`,
+      metadata: {
+        assignment_id: assignment.id,
+        reservation_id: assignment.reservation_id,
+        new_status: status,
+        timestamp: new Date().toISOString(),
+      },
+    });
+
+    // Send Telegram notification to admin
+    const rawDriver = assignment.drivers;
+    const driverObj = Array.isArray(rawDriver) ? rawDriver[0] : rawDriver;
+    const driverName = (driverObj as { full_name: string } | null)?.full_name ?? "Unknown";
+    notifyDriverStatus({
+      code: res?.reservation_code ?? "?",
+      driver: driverName,
+      status,
+    }).catch(() => {});
 
     return NextResponse.json({ success: true, status });
   } catch (err) {

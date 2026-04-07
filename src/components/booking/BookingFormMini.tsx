@@ -40,7 +40,14 @@ export default function BookingFormMini() {
 
   return (
     <div className="rounded-2xl p-6 lg:p-7" style={{ backgroundColor: "#1d1d1f", border: "1px solid rgba(255,255,255,0.08)" }}>
-      <h2 className="text-lg font-semibold text-white mb-5">{t("title")}</h2>
+      {/* Form header with airport note */}
+      <div className="flex items-center justify-between mb-5">
+        <h2 className="text-lg font-semibold text-white">{t("title")}</h2>
+        <span className="flex items-center gap-1 text-[11px] text-gray-500">
+          <Plane size={10} className="text-orange-400" />
+          Antalya Airport (AYT)
+        </span>
+      </div>
 
       {/* Trip type toggle */}
       <div className="flex rounded-lg p-0.5 mb-5" style={{ backgroundColor: "rgba(255,255,255,0.06)" }}>
@@ -70,19 +77,6 @@ export default function BookingFormMini() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
-        {/* Pickup (fixed) */}
-        <div>
-          <label className="block text-xs font-medium text-gray-400 mb-1.5">
-            {t("pickup")}
-          </label>
-          <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg" style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.06)" }}>
-            <Plane size={14} className="text-gray-500" />
-            <span className="text-sm text-gray-300 font-medium">
-              {t("airport")}
-            </span>
-          </div>
-        </div>
-
         {/* Dropoff (region select) */}
         <div>
           <label className="block text-xs font-medium text-gray-400 mb-1.5">
@@ -200,28 +194,26 @@ export default function BookingFormMini() {
           </div>
         )}
 
-        {/* Flight code */}
-        <div>
-          <label className="block text-xs font-medium text-gray-400 mb-1.5">
-            {t("flightCode")}
-          </label>
-          <div className="relative">
-            <Plane
-              size={14}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
-            />
-            <input
-              type="text"
-              name="flight"
-              placeholder={t("flightCodePlaceholder")}
-              className="w-full pl-9 pr-3 py-2.5 rounded-lg text-sm text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none placeholder:text-gray-600"
-              style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.06)" }}
-            />
-          </div>
-        </div>
-
-        {/* Passengers row */}
+        {/* Passengers & Flight row */}
         <div className="grid grid-cols-3 gap-3">
+          <div className="col-span-3">
+            <label className="block text-xs font-medium text-gray-400 mb-1.5">
+              {t("flightCode")} <span className="text-gray-600">({t("optional")})</span>
+            </label>
+            <div className="relative">
+              <Plane
+                size={14}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"
+              />
+              <input
+                type="text"
+                name="flight"
+                placeholder={t("flightCodePlaceholder")}
+                className="w-full pl-9 pr-3 py-2 rounded-lg text-sm text-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none placeholder:text-gray-600"
+                style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.06)" }}
+              />
+            </div>
+          </div>
           <div>
             <label className="block text-xs font-medium text-gray-400 mb-1.5">
               {t("adults")}
@@ -290,7 +282,8 @@ export default function BookingFormMini() {
         {/* Submit */}
         <button
           type="submit"
-          className="w-full py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2 text-sm"
+          className="w-full py-3 text-white font-semibold rounded-lg transition-all hover:brightness-110 flex items-center justify-center gap-2 text-sm"
+          style={{ backgroundColor: '#30D158' }}
         >
           {t("next")}
           <ArrowRight size={16} />

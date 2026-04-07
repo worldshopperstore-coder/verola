@@ -16,11 +16,13 @@ import {
   LogOut,
   ChevronRight,
   FileText,
+  Calendar,
 } from "lucide-react";
 
 const navDefs = [
   { path: "", label: "Dashboard", icon: LayoutDashboard },
   { path: "/reservations", label: "Reservations", icon: CalendarCheck },
+  { path: "/calendar", label: "Calendar", icon: Calendar },
   { path: "/drivers", label: "Drivers", icon: Users },
   { path: "/vehicles", label: "Vehicles", icon: Car },
   { path: "/pricing", label: "Pricing", icon: DollarSign },

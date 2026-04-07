@@ -8,9 +8,11 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2026-03-25.dahlia",
-});
+function getStripe() {
+  return new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: "2026-03-25.dahlia",
+  });
+}
 
 function generateReservationCode(): string {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -261,42 +263,30 @@ export async function POST(request: NextRequest) {
       await supabase.rpc("increment_coupon_usage", { coupon_id: couponId });
     }
 
-    // Create Stripe Checkout session
+    // Create Stripe PaymentIntent
     const regionName = region[`name_${locale ?? "en"}`] || region.name_en;
-    const session = await stripe.checkout.sessions.create({
-      mode: "payment",
+    const paymentIntent = await getStripe().paymentIntents.create({
+      amount: Math.round(calc.totalPrice * 100),
+      currency: "usd",
       payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: `VELORA VIP Transfer — ${regionName}`,
-              description: `${tripType === "round_trip" ? "Round Trip" : "One Way"} | ${pickupDate} ${pickupTime} | Ref: ${reservationCode}`,
-            },
-            unit_amount: Math.round(calc.totalPrice * 100),
-          },
-          quantity: 1,
-        },
-      ],
-      customer_email: email,
+      description: `VELORA VIP Transfer — ${regionName} | ${tripType === "round_trip" ? "Round Trip" : "One Way"} | ${pickupDate} ${pickupTime} | Ref: ${reservationCode}`,
+      receipt_email: email,
       metadata: {
         reservation_id: reservation.id,
         reservation_code: reservationCode,
+        locale: locale ?? "en",
       },
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale ?? "en"}/booking/success?code=${reservationCode}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/${locale ?? "en"}/booking/cancel?code=${reservationCode}`,
     });
 
-    // Store Stripe session ID on reservation
+    // Store Stripe payment intent ID on reservation
     await supabase
       .from("reservations")
-      .update({ stripe_checkout_session_id: session.id })
+      .update({ stripe_payment_intent_id: paymentIntent.id })
       .eq("id", reservation.id);
 
     return NextResponse.json({
       reservationCode,
-      checkoutUrl: session.url,
+      clientSecret: paymentIntent.client_secret,
       reservation: {
         id: reservation.id,
         reservationCode,

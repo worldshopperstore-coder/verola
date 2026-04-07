@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { notifyContactForm } from "@/lib/telegram";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -56,33 +57,11 @@ export async function POST(request: NextRequest) {
     });
 
     // Send Telegram notification to admin
-    const telegramToken = process.env.TELEGRAM_BOT_TOKEN;
-    const telegramChatId = process.env.TELEGRAM_CHAT_ID;
-
-    if (telegramToken && telegramChatId) {
-      const telegramMessage = [
-        "📩 *Yeni İletişim Formu*",
-        "",
-        `👤 *İsim:* ${firstName} ${lastName}`,
-        `📧 *E-posta:* ${email}`,
-        `💬 *Mesaj:* ${message}`,
-      ].join("\n");
-
-      await fetch(
-        `https://api.telegram.org/bot${telegramToken}/sendMessage`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            chat_id: telegramChatId,
-            text: telegramMessage,
-            parse_mode: "Markdown",
-          }),
-        }
-      ).catch(() => {
-        /* Telegram failure shouldn't block response */
-      });
-    }
+    notifyContactForm({
+      name: `${firstName} ${lastName}`,
+      email,
+      message,
+    }).catch(() => {});
 
     return NextResponse.json({ success: true });
   } catch {

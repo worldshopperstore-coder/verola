@@ -10,6 +10,7 @@ import {
   ChevronDown,
   Globe,
   ArrowRight,
+  User,
 } from "lucide-react";
 import { localeNames, localeFlags, type Locale } from "@/i18n/config";
 import CurrencySelector from "./CurrencySelector";
@@ -60,10 +61,10 @@ export default function Header() {
         }}
       >
         <div className="max-w-6xl mx-auto px-6">
-          <div className="flex items-center justify-between h-12">
+          <div className="flex items-center justify-between h-14">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 group">
-              <span className="text-[15px] font-semibold tracking-tight text-white">
+              <span className="text-[17px] font-bold tracking-tight text-white">
                 VELORA
               </span>
             </Link>
@@ -119,11 +120,19 @@ export default function Header() {
               </div>
 
               <Link
+                href="/account/login"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-gray-400 hover:text-white text-xs font-medium transition-colors"
+              >
+                <User size={13} />
+                {t("login")}
+              </Link>
+              <Link
                 href="/booking"
-                className="hidden sm:inline-flex items-center gap-1.5 px-4 py-1.5 bg-white text-black text-xs font-medium rounded-full hover:bg-gray-200 transition-colors"
+                className="hidden sm:inline-flex items-center gap-1.5 px-5 py-2 text-sm font-medium rounded-full transition-all hover:brightness-110"
+                style={{ backgroundColor: '#30D158', color: '#fff' }}
               >
                 {t("bookNow")}
-                <ArrowRight size={12} />
+                <ArrowRight size={13} />
               </Link>
 
               <button
@@ -155,10 +164,19 @@ export default function Header() {
                 {item.label}
               </Link>
             ))}
+            <Link
+              href="/account/login"
+              className="flex items-center gap-2 py-2.5 text-sm font-medium text-gray-400 hover:text-white transition-colors"
+              onClick={() => setMobileOpen(false)}
+            >
+              <User size={16} />
+              {t("login")}
+            </Link>
             <div className="pt-3">
               <Link
                 href="/booking"
-                className="block text-center py-2.5 bg-white text-black text-sm font-medium rounded-full"
+                className="block text-center py-3 text-sm font-semibold rounded-full transition-all"
+                style={{ backgroundColor: '#30D158', color: '#fff' }}
                 onClick={() => setMobileOpen(false)}
               >
                 {t("bookNow")}

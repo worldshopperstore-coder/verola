@@ -1,7 +1,13 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import dynamic from "next/dynamic";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
+
+const RouteMap = dynamic(() => import("./RouteMap"), { ssr: false });
+const StripeCheckoutEmbed = dynamic(() => import("./StripeCheckoutEmbed"), { ssr: false });
 import {
   Plane,
   MapPin,
@@ -35,69 +41,128 @@ interface Props {
   initialLuggage?: number;
 }
 
-const regions = [
-  { slug: "kundu-lara", name: "Kundu - Lara" },
-  { slug: "sehirici", name: "Antalya City Center" },
-  { slug: "kadriye", name: "Kadriye" },
-  { slug: "belek", name: "Belek" },
-  { slug: "bogazkent", name: "Boğazkent" },
-  { slug: "evrenseki", name: "Evrenseki" },
-  { slug: "side", name: "Side" },
-  { slug: "kizilagac", name: "Kızılağaç" },
-  { slug: "okurcalar", name: "Okurcalar" },
-  { slug: "turkler", name: "Türkler" },
-  { slug: "alanya", name: "Alanya" },
-  { slug: "mahmutlar", name: "Mahmutlar" },
-  { slug: "kargicak", name: "Kargıcak" },
-  { slug: "beldibi", name: "Beldibi" },
-  { slug: "goynuk", name: "Göynük" },
-  { slug: "kemer", name: "Kemer" },
-  { slug: "kiris", name: "Kiriş" },
-  { slug: "camyuva", name: "Çamyuva" },
-  { slug: "tekirova", name: "Tekirova" },
-  { slug: "adrasan", name: "Adrasan" },
-  { slug: "kas", name: "Kaş" },
-  { slug: "kalkan", name: "Kalkan" },
-  { slug: "fethiye", name: "Fethiye" },
-  { slug: "marmaris", name: "Marmaris" },
-];
+type RegionItem = {
+  slug: string;
+  name_tr: string;
+  name_en: string;
+  name_de: string;
+  name_pl: string;
+  name_ru: string;
+  latitude?: number;
+  longitude?: number;
+};
+
+type Locale = "tr" | "en" | "de" | "pl" | "ru";
 
 export default function BookingWizard(props: Props) {
   const t = useTranslations("booking");
-  const locale = useLocale();
+  const locale = useLocale() as Locale;
 
-  const [step, setStep] = useState(1);
+  // ─── Restore persisted state from sessionStorage (survives locale/currency change) ───
+  const STORAGE_KEY = "velora_booking_state";
+
+  const getSaved = (): Record<string, unknown> | null => {
+    if (typeof window === "undefined") return null;
+    try {
+      const raw = sessionStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      // Expire after 30 minutes
+      if (parsed._ts && Date.now() - parsed._ts > 30 * 60 * 1000) {
+        sessionStorage.removeItem(STORAGE_KEY);
+        return null;
+      }
+      return parsed;
+    } catch { return null; }
+  };
+
+  const saved = getSaved();
+
+  const [step, setStep] = useState((saved?.step as number) ?? 1);
   const [loading, setLoading] = useState(false);
   const [priceLoading, setPriceLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [reservationCode, setReservationCode] = useState<string | null>(null);
+
+  // Auto-fill today's date & current rounded time
+  const getDefaults = () => {
+    const now = new Date();
+    const yyyy = now.getFullYear();
+    const mm = String(now.getMonth() + 1).padStart(2, "0");
+    const dd = String(now.getDate()).padStart(2, "0");
+    const hh = String(now.getHours()).padStart(2, "0");
+    const mi = String(Math.ceil(now.getMinutes() / 5) * 5 % 60).padStart(2, "0");
+    return { date: `${yyyy}-${mm}-${dd}`, time: `${hh}:${mi}` };
+  };
+  const defaults = getDefaults();
 
   // Step 1:  Transfer details
-  const [tripType, setTripType] = useState(props.initialTrip ?? "one_way");
-  const [regionSlug, setRegionSlug] = useState(props.initialRegion ?? "");
-  const [pickupDate, setPickupDate] = useState(props.initialDate ?? "");
-  const [pickupTime, setPickupTime] = useState(props.initialTime ?? "");
-  const [returnDate, setReturnDate] = useState(props.initialReturnDate ?? "");
-  const [returnTime, setReturnTime] = useState(props.initialReturnTime ?? "");
-  const [flightCode, setFlightCode] = useState(props.initialFlight ?? "");
-  const [adults, setAdults] = useState(props.initialAdults ?? 2);
-  const [children, setChildren] = useState(props.initialChildren ?? 0);
-  const [luggage, setLuggage] = useState(props.initialLuggage ?? 2);
+  const [tripType, setTripType] = useState((saved?.tripType as string as "one_way" | "round_trip") ?? props.initialTrip ?? "one_way");
+  const [regionSlug, setRegionSlug] = useState((saved?.regionSlug as string) ?? props.initialRegion ?? "");
+  const [pickupDate, setPickupDate] = useState((saved?.pickupDate as string) ?? props.initialDate ?? defaults.date);
+  const [pickupTime, setPickupTime] = useState((saved?.pickupTime as string) ?? props.initialTime ?? defaults.time);
+  const [returnDate, setReturnDate] = useState((saved?.returnDate as string) ?? props.initialReturnDate ?? "");
+  const [returnTime, setReturnTime] = useState((saved?.returnTime as string) ?? props.initialReturnTime ?? "");
+  const [flightCode, setFlightCode] = useState((saved?.flightCode as string) ?? props.initialFlight ?? "");
+  const [adults, setAdults] = useState((saved?.adults as number) ?? props.initialAdults ?? 2);
+  const [children, setChildren] = useState((saved?.children as number) ?? props.initialChildren ?? 0);
+  const [luggage, setLuggage] = useState((saved?.luggage as number) ?? props.initialLuggage ?? 2);
+
+  // Dynamic regions from Supabase
+  const [regions, setRegions] = useState<RegionItem[]>([]);
+  useEffect(() => {
+    fetch("/api/regions")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) setRegions(data);
+      })
+      .catch(() => {});
+  }, []);
+
+  const getRegionName = (r: RegionItem) => r[`name_${locale}`] || r.name_en;
+
+  const selectedRegion = useMemo(
+    () => regions.find((r) => r.slug === regionSlug) ?? null,
+    [regions, regionSlug]
+  );
 
   // Step 2: Vehicle & extras
-  const [childSeat, setChildSeat] = useState(false);
-  const [welcomeSign, setWelcomeSign] = useState(false);
-  const [welcomeName, setWelcomeName] = useState("");
-  const [couponCode, setCouponCode] = useState("");
-  const [couponApplied, setCouponApplied] = useState(false);
+  const [childSeat, setChildSeat] = useState((saved?.childSeat as boolean) ?? false);
+  const [welcomeSign, setWelcomeSign] = useState((saved?.welcomeSign as boolean) ?? false);
+  const [welcomeName, setWelcomeName] = useState((saved?.welcomeName as string) ?? "");
+  const [couponCode, setCouponCode] = useState((saved?.couponCode as string) ?? "");
+  const [couponApplied, setCouponApplied] = useState((saved?.couponApplied as boolean) ?? false);
+  const [couponError, setCouponError] = useState<string | null>(null);
+  const [couponSuccess, setCouponSuccess] = useState(false);
 
   // Step 3: Personal info
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [hotelName, setHotelName] = useState("");
-  const [hotelAddress, setHotelAddress] = useState("");
-  const [notes, setNotes] = useState("");
+  const [firstName, setFirstName] = useState((saved?.firstName as string) ?? "");
+  const [lastName, setLastName] = useState((saved?.lastName as string) ?? "");
+  const [email, setEmail] = useState((saved?.email as string) ?? "");
+  const [phone, setPhone] = useState((saved?.phone as string) ?? "");
+  const [hotelName, setHotelName] = useState((saved?.hotelName as string) ?? "");
+  const [hotelAddress, setHotelAddress] = useState((saved?.hotelAddress as string) ?? "");
+  const [notes, setNotes] = useState((saved?.notes as string) ?? "");
+
+  // ─── Persist form state to sessionStorage on every change ───
+  useEffect(() => {
+    // Don't persist once payment started (step 4)
+    if (step >= 4) return;
+    try {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({
+        _ts: Date.now(),
+        step: Math.min(step, 3), // Never persist step 4
+        tripType, regionSlug, pickupDate, pickupTime, returnDate, returnTime,
+        flightCode, adults, children, luggage,
+        childSeat, welcomeSign, welcomeName, couponCode, couponApplied,
+        firstName, lastName, email, phone, hotelName, hotelAddress, notes,
+      }));
+    } catch { /* storage full or unavailable */ }
+  }, [step, tripType, regionSlug, pickupDate, pickupTime, returnDate, returnTime,
+      flightCode, adults, children, luggage, childSeat, welcomeSign, welcomeName,
+      couponCode, couponApplied, firstName, lastName, email, phone, hotelName,
+      hotelAddress, notes]);
 
   // Price calculation result
   const [priceData, setPriceData] = useState<{
@@ -139,8 +204,16 @@ export default function BookingWizard(props: Props) {
 
   const applyCoupon = async () => {
     if (!couponCode.trim()) return;
+    setCouponError(null);
+    setCouponSuccess(false);
     setCouponApplied(true);
-    // Will trigger fetchPrice via useEffect
+    // fetchPrice will be triggered via useEffect
+    // Check result after a short delay
+    setTimeout(() => {
+      if (priceData?.calculation?.couponDiscount && priceData.calculation.couponDiscount > 0) {
+        setCouponSuccess(true);
+      }
+    }, 1500);
   };
 
   const goNext = () => {
@@ -155,11 +228,12 @@ export default function BookingWizard(props: Props) {
         return;
       }
     }
-    setStep((s) => Math.min(s + 1, 3));
+    setStep((s) => Math.min(s + 1, 4));
   };
 
   const goBack = () => {
     setError(null);
+    if (step === 4) return; // Can't go back from payment
     setStep((s) => Math.max(s - 1, 1));
   };
 
@@ -206,9 +280,13 @@ export default function BookingWizard(props: Props) {
         return;
       }
 
-      // Redirect to Stripe Checkout
-      if (data.checkoutUrl) {
-        window.location.href = data.checkoutUrl;
+      // Show embedded Stripe checkout on Step 4
+      if (data.clientSecret) {
+        setClientSecret(data.clientSecret);
+        setReservationCode(data.reservationCode);
+        setStep(4);
+        // Clear saved state — payment in progress
+        try { sessionStorage.removeItem(STORAGE_KEY); } catch {}
       }
     } catch {
       setError(t("errorNetwork"));
@@ -223,7 +301,7 @@ export default function BookingWizard(props: Props) {
     <div className="max-w-5xl mx-auto px-4 py-10">
       {/* Step indicator */}
       <div className="flex items-center justify-center gap-2 mb-10">
-        {[1, 2, 3].map((s) => (
+        {[1, 2, 3, 4].map((s) => (
           <div key={s} className="flex items-center gap-2">
             <div
               className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
@@ -243,7 +321,7 @@ export default function BookingWizard(props: Props) {
             >
               {t(`step${s}`)}
             </span>
-            {s < 3 && (
+            {s < 4 && (
               <div
                 className={`w-12 h-0.5 mx-1 ${s < step ? "bg-green-500" : "bg-[#333]"}`}
               />
@@ -268,6 +346,7 @@ export default function BookingWizard(props: Props) {
               <div className="space-y-5">
                 <h2 className="text-xl font-bold text-white flex items-center gap-2">
                   <MapPin size={20} className="text-orange-500" />
+                  {t("step1")}
                 </h2>
 
                 {/* Trip type */}
@@ -329,7 +408,7 @@ export default function BookingWizard(props: Props) {
                       <option value="">{t("selectRegion")}</option>
                       {regions.map((r) => (
                         <option key={r.slug} value={r.slug}>
-                          {r.name}
+                          {getRegionName(r)}
                         </option>
                       ))}
                     </select>
@@ -411,7 +490,7 @@ export default function BookingWizard(props: Props) {
                 {/* Flight code */}
                 <div>
                   <label className="block text-sm font-medium text-[#86868b] mb-1.5">
-                    {t("flightCode")}
+                    {t("flightCode")} <span className="text-[#555] text-xs">({t("optional")})</span>
                   </label>
                   <div className="relative">
                     <Plane
@@ -500,6 +579,7 @@ export default function BookingWizard(props: Props) {
               <div className="space-y-5">
                 <h2 className="text-xl font-bold text-white flex items-center gap-2">
                   <Shield size={20} className="text-orange-500" />
+                  {t("step2")}
                 </h2>
 
                 {/* Vehicle card (only VIP for now) */}
@@ -530,7 +610,7 @@ export default function BookingWizard(props: Props) {
                 {/* Extras */}
                 <div className="space-y-3">
                   <h3 className="text-sm font-semibold text-[#555] uppercase tracking-wide">
-                    Extras
+                    {t("extras")}
                   </h3>
 
                   {/* Child seat toggle */}
@@ -551,7 +631,7 @@ export default function BookingWizard(props: Props) {
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-sm font-semibold text-emerald-400">
-                        FREE
+                        {t("free")}
                       </span>
                       <input
                         type="checkbox"
@@ -623,6 +703,17 @@ export default function BookingWizard(props: Props) {
                       {t("applyCoupon")}
                     </button>
                   </div>
+                  {couponApplied && priceData && !priceLoading && (
+                    priceData.calculation.couponDiscount > 0 ? (
+                      <p className="text-xs text-emerald-400 mt-1 flex items-center gap-1">
+                        <Check size={12} /> {t("couponAppliedSuccess")} (-${priceData.calculation.couponDiscount.toFixed(2)})
+                      </p>
+                    ) : (
+                      <p className="text-xs text-red-400 mt-1 flex items-center gap-1">
+                        <AlertCircle size={12} /> {t("couponInvalid")}
+                      </p>
+                    )
+                  )}
                 </div>
 
                 {/* Navigation */}
@@ -702,13 +793,14 @@ export default function BookingWizard(props: Props) {
                   <label className="block text-sm font-medium text-[#86868b] mb-1.5">
                     {t("phone")} *
                   </label>
-                  <input
-                    type="tel"
+                  <PhoneInput
+                    international
+                    defaultCountry="TR"
                     value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(val) => setPhone(val ?? "")}
                     placeholder={t("placeholderPhone")}
-                    required
-                    className="w-full px-4 py-3 rounded-lg text-sm text-white focus:ring-2 focus:ring-orange-500 outline-none" style={{ backgroundColor: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
+                    className="phone-input-dark w-full px-4 py-3 rounded-lg text-sm text-white focus:ring-2 focus:ring-orange-500 outline-none"
+                    style={{ backgroundColor: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
                   />
                 </div>
 
@@ -757,7 +849,7 @@ export default function BookingWizard(props: Props) {
                     {loading ? (
                       <>
                         <Loader2 size={18} className="animate-spin" />
-                        Processing...
+                        {t("processing")}
                       </>
                     ) : (
                       <>
@@ -769,12 +861,46 @@ export default function BookingWizard(props: Props) {
                 </div>
               </div>
             )}
+
+            {/* STEP 4: Stripe Payment */}
+            {step === 4 && clientSecret && (
+              <div className="space-y-5">
+                <h2 className="text-xl font-bold text-white flex items-center gap-2">
+                  <CreditCard size={20} className="text-orange-500" />
+                  {t("step4")}
+                </h2>
+                <StripeCheckoutEmbed
+                  clientSecret={clientSecret}
+                  reservationCode={reservationCode ?? ""}
+                  locale={locale}
+                  totalPrice={priceData?.calculation?.totalPrice ?? 0}
+                  regionName={selectedRegion ? getRegionName(selectedRegion) : regionSlug}
+                  tripType={tripType}
+                  pickupDate={pickupDate}
+                  pickupTime={pickupTime}
+                  onSuccess={() => {
+                    window.location.href = `/${locale}/booking/success?code=${reservationCode}`;
+                  }}
+                />
+              </div>
+            )}
           </div>
         </div>
 
         {/* Right: Price Summary sidebar */}
         <div className="lg:col-span-1">
-          <div className="rounded-2xl p-6 sticky top-24" style={{ backgroundColor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+          <div className="sticky top-20 z-10 space-y-4">
+          {/* Route Map */}
+          <div>
+            <RouteMap
+              destinationLat={selectedRegion?.latitude}
+              destinationLng={selectedRegion?.longitude}
+              destinationName={selectedRegion ? getRegionName(selectedRegion) : undefined}
+              className="h-[220px]"
+            />
+          </div>
+
+          <div className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
             <h3 className="text-lg font-bold text-white mb-4">
               {t("totalPrice")}
             </h3>
@@ -792,7 +918,7 @@ export default function BookingWizard(props: Props) {
                 <div className="pb-3 border-b border-white/5">
                   <p className="text-sm text-[#86868b]">{t("dropoff")}</p>
                   <p className="font-semibold text-white">
-                    {regions.find((r) => r.slug === regionSlug)?.name}
+                    {selectedRegion ? getRegionName(selectedRegion) : regionSlug}
                   </p>
                   <p className="text-xs text-[#555] mt-1">
                     ~{priceData.region.duration_minutes} min •{" "}
@@ -840,7 +966,7 @@ export default function BookingWizard(props: Props) {
                     <span className="text-[#86868b]">
                       {t("childSeatFee")}
                     </span>
-                    <span className="font-medium text-emerald-400">FREE</span>
+                    <span className="font-medium text-emerald-400">{t("free")}</span>
                   </div>
                 )}
 
@@ -902,7 +1028,7 @@ export default function BookingWizard(props: Props) {
               </div>
             ) : (
               <p className="text-sm text-[#555] text-center py-6">
-                Select a region to see pricing
+                {t("selectRegionForPrice")}
               </p>
             )}
 
@@ -910,16 +1036,17 @@ export default function BookingWizard(props: Props) {
             <div className="mt-6 pt-4 border-t border-white/5 space-y-2.5">
               <div className="flex items-center gap-2 text-xs text-[#86868b]">
                 <Shield size={14} className="text-green-500" />
-                Secure payment via Stripe
+                {t("trustSecure")}
               </div>
               <div className="flex items-center gap-2 text-xs text-[#86868b]">
                 <Check size={14} className="text-green-500" />
-                Free cancellation 24h before
+                {t("trustCancel")}
               </div>
               <div className="flex items-center gap-2 text-xs text-[#86868b]">
                 <Check size={14} className="text-green-500" />
-                No hidden fees
+                {t("trustNoHidden")}
               </div>
+            </div>
             </div>
           </div>
         </div>

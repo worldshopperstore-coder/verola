@@ -20,7 +20,12 @@
     "title": "VIP Flughafentransfer Antalya",
     "subtitle": "Starten Sie Ihren Urlaub mit einem luxuriösen, sicheren und professionellen Transferservice.",
     "badge": "24/7 Service",
-    "exploreRegions": "Regionen entdecken >"
+    "exploreRegions": "Regionen entdecken >",
+    "startingFrom": "ab",
+    "service": "Service",
+    "flightTracking": "Flugverfolgung",
+    "service247": "24/7 Service",
+    "fixedPrice": "Festpreis"
   },
   "booking": {
     "title": "Transfer Buchen",
@@ -52,6 +57,8 @@
     "step1": "Transfer Details",
     "step2": "Fahrzeugwahl",
     "step3": "Angaben & Zahlung",
+    "step4": "Zahlung",
+    "paymentSecureNote": "Ihre Zahlungsinformationen werden sicher von Stripe verarbeitet. Ihre Kartendaten werden nie auf unseren Servern gespeichert.",
     "firstName": "Vorname",
     "lastName": "Nachname",
     "email": "E-Mail",
@@ -78,7 +85,41 @@
     "placeholderWelcomeName": "Name auf dem Willkommensschild",
     "placeholderCoupon": "WELCOME10",
     "placeholderPhone": "+90 555 123 4567",
-    "placeholderHotel": "Hotelname oder Abholadresse"
+    "placeholderHotel": "Hotelname oder Abholadresse",
+    "seoHeading": "Warum Velora Transfer wählen?",
+    "seoSubheading": "Sicherer, komfortabler und pünktlicher VIP-Flughafentransfer vom Flughafen Antalya zu allen Urlaubszielen.",
+    "seoFlightTracking": "Flugverfolgung",
+    "seoFlightTrackingDesc": "Wir verfolgen Ihren Flug in Echtzeit. Ihr Fahrer wartet auch bei Verspätungen.",
+    "seoInsured": "Lizenziert & Versichert",
+    "seoInsuredDesc": "Alle unsere Fahrzeuge sind vollständig lizenziert und umfassend versichert.",
+    "seoSecurePayment": "Sichere Zahlung",
+    "seoSecurePaymentDesc": "SSL-verschlüsselte, sichere Kreditkartenzahlung über Stripe.",
+    "seo247": "24/7 Support",
+    "seo247Desc": "Erreichen Sie uns per WhatsApp oder Telefon vor, während und nach Ihrem Flug.",
+    "seoDoorToDoor": "Tür zu Tür",
+    "seoDoorToDoorDesc": "Privater VIP-Transfer vom Flughafenausgang direkt zu Ihrem Hotel.",
+    "seoNoHidden": "Keine versteckten Kosten",
+    "seoNoHiddenDesc": "Der Preis bei der Buchung ist der Preis, den Sie zahlen. Keine Überraschungen.",
+    "seoFaqTitle": "Häufig gestellte Fragen",
+    "seoFaq1Q": "Wie funktioniert der Antalya Flughafentransfer?",
+    "seoFaq1A": "Nach der Online-Buchung wird Ihr Flug verfolgt. Bei der Landung begrüßt Sie Ihr Fahrer mit einem Namensschild und bringt Sie direkt zum Hotel.",
+    "seoFaq2Q": "Ist eine kostenlose Stornierung möglich?",
+    "seoFaq2A": "Ja, Sie können bis 24 Stunden vor dem Transfer kostenlos stornieren. Volle Rückerstattung.",
+    "seoFaq3Q": "Welche Ziele bedienen Sie?",
+    "seoFaq3A": "Wir bieten VIP-Transfers nach Belek, Kemer, Alanya, Side, Lara, Kundu, Kaş, Manavgat, Konyaaltı und viele mehr.",
+    "seoFaq4Q": "Gibt es einen Aufpreis für Nachtflüge?",
+    "seoFaq4A": "Für Flüge zwischen 22:00-06:00 Uhr wird ein Nachtzuschlag von 15% erhoben. Dies wird automatisch berechnet.",
+    "seoTextBlock": "VELORA Transfer bietet Premium-VIP-Transferservice zwischen dem Flughafen Antalya (AYT) und allen Urlaubszielen einschließlich Belek, Kemer, Side, Alanya, Lara, Kundu, Kaş und Manavgat. Reisen Sie komfortabel und sicher mit unserer Mercedes Vito Flotte.",
+    "optional": "optional",
+    "extras": "Extras",
+    "free": "KOSTENLOS",
+    "processing": "Wird bearbeitet...",
+    "selectRegionForPrice": "Wählen Sie eine Region für Preise",
+    "couponAppliedSuccess": "Gutschein angewendet!",
+    "couponInvalid": "Ungültiger oder abgelaufener Gutschein",
+    "trustSecure": "Sichere Zahlung über Stripe",
+    "trustCancel": "Kostenlose Stornierung 24h vorher",
+    "trustNoHidden": "Keine versteckten Gebühren"
   },
   "trust": {
     "heading": "Warum Reisende Velora wählen.",
@@ -201,7 +242,12 @@
     "feature3Title": "Mehrsprachiger Support",
     "feature3Desc": "24/7 Support auf Türkisch, Englisch, Deutsch, Polnisch und Russisch. Wir sind jederzeit für Sie da.",
     "feature4Title": "Vollständig Lizenziert & Versichert",
-    "feature4Desc": "Alle Fahrzeuge werden regelmäßig geprüft, sind lizenziert und verfügen über umfassende Passagierversicherung."
+    "feature4Desc": "Alle Fahrzeuge werden regelmäßig geprüft, sind lizenziert und verfügen über umfassende Passagierversicherung.",
+    "trustStripePayments": "Sichere Stripe-Zahlung",
+    "trustInsured": "Vollversicherte Transfers",
+    "trustFlightTracking": "Echtzeit-Flugverfolgung",
+    "trustFreeCancellation": "Kostenlose Stornierung 24h",
+    "trustSince": "Im Dienst seit 2022"
   },
   "contact": {
     "title": "Kontakt",
@@ -224,7 +270,9 @@
     "successTitle": "Nachricht gesendet!",
     "successDesc": "Vielen Dank für Ihre Nachricht. Wir werden uns so schnell wie möglich bei Ihnen melden.",
     "errorSendFailed": "Nachricht konnte nicht gesendet werden",
-    "errorGeneric": "Etwas ist schiefgelaufen"
+    "errorGeneric": "Etwas ist schiefgelaufen",
+    "responseTime": "Durchschnittliche Antwortzeit: unter 30 Minuten",
+    "checkFaq": "Schauen Sie in unsere FAQ für schnelle Antworten"
   },
   "faq": {
     "title": "FAQ",
@@ -253,7 +301,10 @@
     "q11": "In welche Regionen bieten Sie Transfers an?",
     "a11": "Wir bieten Transfer vom Flughafen Antalya nach Belek, Side, Alanya, Kemer, Kaş, Fethiye, Marmaris und über 25 weitere Regionen.",
     "q12": "Ich habe einen Spätflug, ist ein Transfer möglich?",
-    "a12": "Ja, wir bieten 24/7 Transferservice an. Ihr Fahrer ist auch bei Nachtflügen bereit und wartet."
+    "a12": "Ja, wir bieten 24/7 Transferservice an. Ihr Fahrer ist auch bei Nachtflügen bereit und wartet.",
+    "stillNeedHelp": "Noch Fragen?",
+    "stillNeedHelpDesc": "Unser Team steht Ihnen rund um die Uhr für alle Fragen zu Ihrem Transfer zur Verfügung.",
+    "contactUs": "Kontakt aufnehmen"
   },
   "regionDetail": {
     "home": "Startseite",
@@ -293,7 +344,20 @@
     "faqA4": "Ihr Fahrer begrüßt Sie in der Ankunftshalle mit einem Namensschild. Nach der Buchung erhalten Sie Fahrerdaten und QR-Code.",
     "readyToBook": "Bereit, Ihren {name}-Transfer zu buchen?",
     "readyDesc": "Festpreis, professionelle Fahrer, Meet & Greet am Flughafen.",
-    "bookNow": "Jetzt Buchen"
+    "bookNow": "Jetzt Buchen",
+    "fromPrice": "Ab",
+    "oneWay": "Einfache Fahrt",
+    "roundTrip": "Hin- und Rückfahrt",
+    "perVehicle": "pro Fahrzeug",
+    "aboutRegion": "Über {name}",
+    "aboutDescDefault": "{name} ist eines der beliebtesten Urlaubsziele in Antalya. Nur {duration} Minuten vom Flughafen Antalya entfernt, begrüßt {name} jedes Jahr Tausende von Touristen. Mit dem VELORA VIP-Transferservice reisen Sie komfortabel, sicher und zum Festpreis vom Flughafen nach {name}.",
+    "highlightDistance": "{distance} km vom Flughafen",
+    "highlightDuration": "Ca. {duration} Min. Fahrzeit",
+    "highlightAvailable": "24/7 Transferservice",
+    "highlightMeetGreet": "Begrüßung mit Namensschild",
+    "otherDestinations": "Andere beliebte Reiseziele",
+    "viewTransfer": "Transfer ansehen",
+    "imageAlt": "VIP-Transfer vom Flughafen Antalya nach {name}"
   },
   "footer": {
     "company": "Unternehmen",
@@ -347,7 +411,9 @@
     "publishedOn": "Veröffentlicht am",
     "noPosts": "Noch keine Blogbeiträge. Schauen Sie bald wieder vorbei!",
     "shareArticle": "Artikel teilen",
-    "relatedPosts": "Ähnliche Artikel"
+    "relatedPosts": "Ähnliche Artikel",
+    "popularTransfers": "Beliebte Transfers",
+    "bookTransfer": "Transfer buchen"
   },
   "terms": {
     "title": "Rechtliches",
@@ -455,7 +521,8 @@
     "step2": "Ein Fahrer wird Ihrem Transfer zugewiesen. Sie werden per WhatsApp benachrichtigt.",
     "step3": "Ihr Fahrer erwartet Sie am Flughafen Antalya Ankunft mit einem Namensschild.",
     "whatsappSupport": "WhatsApp Support",
-    "emailSupport": "E-Mail Support"
+    "emailSupport": "E-Mail Support",
+    "downloadVoucher": "PDF-Voucher herunterladen"
   },
   "bookingCancel": {
     "title": "Zahlung Abgebrochen",
@@ -463,5 +530,32 @@
     "reference": "Referenz",
     "tryAgain": "Erneut Versuchen",
     "whatsappSupport": "WhatsApp Support"
+  },
+  "homeFaq": {
+    "badge": "Häufig gestellte Fragen",
+    "heading": "Häufige Fragen",
+    "subheading": "Alles was Sie über unseren Transferservice wissen müssen",
+    "q1": "Wie funktioniert der Antalya Flughafen Transfer?",
+    "a1": "Buchen Sie online, wir verfolgen Ihren Flug und begrüßen Sie am Flughafen mit einem Namensschild. Dann fahren wir Sie direkt zu Ihrem Hotel.",
+    "q2": "Wie viel kostet ein Transfer?",
+    "a2": "Die Preise variieren je nach Ziel. Ab 35$ nach Kundu-Lara, 40$ nach Belek, 55$ nach Side, 75$ nach Alanya. Alle Preise inklusive Fahrzeug, Fahrer, Kraftstoff und Versicherung.",
+    "q3": "Was passiert bei Flugverspätung?",
+    "a3": "Wir verfolgen Ihren Flug in Echtzeit. Bei Verspätung wartet Ihr Fahrer ohne Aufpreis weiter auf Sie.",
+    "q4": "Welche Fahrzeuge werden eingesetzt?",
+    "a4": "Wir bieten Mercedes Vito VIP-Fahrzeuge mit WLAN, Klimaanlage, USB-Ladung, Wasser und Ledersitzen.",
+    "q5": "Bieten Sie Kindersitze an?",
+    "a5": "Ja, Sie können bei der Buchung einen Kindersitz anfordern. Dieser wird kostenlos bereitgestellt.",
+    "q6": "Wie kann ich bezahlen?",
+    "a6": "Sie können sicher online mit Kreditkarte bezahlen. Alle Karten werden über die Stripe-Zahlungsinfrastruktur akzeptiert."
+  },
+  "localSeo": {
+    "heading": "Antalya Flughafen VIP Transfer Service",
+    "paragraph1": "VELORA Transfer bietet professionellen VIP-Transferservice vom Flughafen Antalya (AYT) zu allen Ferienorten einschließlich Belek, Side, Alanya, Kemer, Kundu-Lara, Kaş, Fethiye, Marmaris und Umgebung. 24/7 Service, Flugverfolgung und Festpreisgarantie.",
+    "paragraph2": "Unser Antalya Flughafen-Transferservice wird mit lizenzierten und versicherten Fahrzeugen angeboten. Unsere Mercedes Vito VIP-Fahrzeuge verfügen über WLAN, Klimaanlage, USB-Ladeanschlüsse und kostenloses Wasser. Unsere Fahrer sprechen Englisch, Deutsch und Russisch.",
+    "paragraph3": "Belek Golf-Hotel Transfer, Side Antikstadt Transfer, Alanya Küsten Transfer, Kemer Natur-Resort Transfer — schneller und sicherer Zugang zu allen beliebten Antalya-Ferienzielen. Privater Tür-zu-Tür-Transfer vom Flughafen zu Ihrem Hotel.",
+    "feat1": "Flugverfolgungssystem",
+    "feat2": "Lizenziert & Versichert",
+    "feat3": "4.9 Kundenbewertung",
+    "feat4": "25+ Reiseziele"
   }
 }

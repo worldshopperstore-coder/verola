@@ -1,34 +1,77 @@
 import { getTranslations } from "next-intl/server";
+import { seoAlternates, seoOpenGraph } from "@/lib/seo";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import ContactForm from "@/components/ContactForm";
-import { Phone, Mail, MapPin, MessageCircle } from "lucide-react";
+import { Link } from "@/i18n/routing";
+import { Phone, Mail, MapPin, MessageCircle, Clock, ArrowRight, HelpCircle } from "lucide-react";
 import type { Metadata } from "next";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("contact");
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "contact" });
+  const title = `${t("heading")} | VELORA Transfer`;
+  const description = t("subtitle");
   return {
-    title: `${t("heading")} | VELORA Transfer`,
-    description: t("subtitle"),
+    title,
+    description,
+    alternates: seoAlternates(locale, "/contact"),
+    openGraph: seoOpenGraph(locale, "/contact", title, description),
   };
 }
 
 export default async function ContactPage() {
   const t = await getTranslations("contact");
 
+  const contactSchema = {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "VELORA Transfer",
+    url: "https://veloratransfer.com",
+    telephone: "+90-543-145-15-48",
+    email: "info@veloratransfer.com",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Antalya Havalimanı",
+      addressLocality: "Antalya",
+      addressRegion: "Antalya",
+      postalCode: "07230",
+      addressCountry: "TR",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: 36.8987,
+      longitude: 30.8005,
+    },
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      opens: "00:00",
+      closes: "23:59",
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactSchema) }}
+      />
       <Header />
       <main className="flex-1">
         {/* Hero */}
         <section className="relative py-24 overflow-hidden" style={{ background: "linear-gradient(180deg, #1c1c1e 0%, #111113 100%)" }}>
           <div className="absolute inset-0">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px]" style={{ backgroundColor: "rgba(249,115,22,0.06)" }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-[100px]" style={{ backgroundColor: "rgba(249,115,22,0.15)" }} />
           </div>
           <div className="relative max-w-3xl mx-auto px-4 text-center">
             <p className="text-sm font-semibold text-orange-400 uppercase tracking-widest mb-4">{t("title")}</p>
-            <h1 className="text-4xl lg:text-5xl font-bold mb-5 tracking-tight text-white">{t("heading")}</h1>
+            <h1 className="text-3xl lg:text-5xl font-bold mb-5 tracking-tight text-white">{t("heading")}</h1>
             <p className="text-[#86868b] text-lg max-w-xl mx-auto">{t("subtitle")}</p>
           </div>
         </section>
@@ -71,6 +114,19 @@ export default async function ContactPage() {
                       </div>
                     </div>
                   ))}
+                </div>
+
+                {/* Response time + FAQ link */}
+                <div className="mt-6 space-y-3">
+                  <div className="flex items-center gap-3 px-4 py-3 rounded-xl" style={{ backgroundColor: "rgba(48,209,88,0.06)", border: "1px solid rgba(48,209,88,0.12)" }}>
+                    <Clock size={16} className="text-emerald-400 flex-shrink-0" strokeWidth={1.5} />
+                    <span className="text-sm text-[#86868b]">{t("responseTime")}</span>
+                  </div>
+                  <Link href="/faq" className="flex items-center gap-3 px-4 py-3 rounded-xl group transition-colors" style={{ backgroundColor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                    <HelpCircle size={16} className="text-orange-400 flex-shrink-0" strokeWidth={1.5} />
+                    <span className="text-sm text-[#86868b] group-hover:text-white transition-colors flex-1">{t("checkFaq")}</span>
+                    <ArrowRight size={14} className="text-[#555] group-hover:text-orange-400 transition-colors" />
+                  </Link>
                 </div>
               </div>
 

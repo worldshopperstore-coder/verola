@@ -1,19 +1,65 @@
-import { useTranslations } from "next-intl";
+"use client";
+
+import { useEffect, useState } from "react";
+import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/routing";
-import { Mail, MessageCircle } from "lucide-react";
+import { Mail, MessageCircle, Phone, MapPin } from "lucide-react";
+
+type Locale = "tr" | "en" | "de" | "pl" | "ru";
+type RegionItem = {
+  slug: string;
+  name_tr: string;
+  name_en: string;
+  name_de: string;
+  name_pl: string;
+  name_ru: string;
+  is_popular?: boolean;
+};
 
 export default function Footer() {
   const t = useTranslations("footer");
+  const locale = useLocale() as Locale;
   const currentYear = new Date().getFullYear();
+
+  const [popularRegions, setPopularRegions] = useState<RegionItem[]>([]);
+
+  useEffect(() => {
+    fetch("/api/regions?popular=true")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) setPopularRegions(data);
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <footer style={{ backgroundColor: "#000", borderTop: "1px solid rgba(255,255,255,0.06)" }}>
-      <div className="max-w-6xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+      <div className="max-w-6xl mx-auto px-6 py-14">
+        {/* Top: Logo + description */}
+        <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 md:gap-8 mb-10 md:mb-12 pb-8 md:pb-10" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+          <div className="max-w-sm">
+            <h3 className="text-xl font-bold text-white tracking-tight mb-3">VELORA</h3>
+            <p className="text-gray-500 text-sm leading-relaxed">{t("description")}</p>
+          </div>
+          <div className="flex items-center gap-4">
+            <a href="https://instagram.com/veloratransfer" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full flex items-center justify-center transition-colors text-gray-500 hover:text-white" style={{ backgroundColor: "rgba(255,255,255,0.06)" }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+            </a>
+            <a href="https://facebook.com/veloratransfer" target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full flex items-center justify-center transition-colors text-gray-500 hover:text-white" style={{ backgroundColor: "rgba(255,255,255,0.06)" }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            </a>
+            <a href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "905431451548"}`} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-full flex items-center justify-center transition-colors text-emerald-500 hover:text-emerald-400" style={{ backgroundColor: "rgba(52,211,153,0.1)" }}>
+              <MessageCircle size={18} />
+            </a>
+          </div>
+        </div>
+
+        {/* Columns */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-10 md:mb-12">
           {/* Company */}
           <div>
-            <h4 className="text-xs font-medium text-gray-400 mb-4">{t("company")}</h4>
-            <ul className="space-y-2.5">
+            <h4 className="text-sm font-semibold text-white mb-5">{t("company")}</h4>
+            <ul className="space-y-3">
               {[
                 { href: "/about", label: t("about") },
                 { href: "/contact", label: t("contact") },
@@ -21,7 +67,7 @@ export default function Footer() {
                 { href: "/faq", label: t("faq") },
               ].map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="text-gray-500 hover:text-white text-xs transition-colors">
+                  <Link href={item.href} className="text-gray-500 hover:text-white text-sm transition-colors">
                     {item.label}
                   </Link>
                 </li>
@@ -29,14 +75,14 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Destinations */}
+          {/* Popular Destinations */}
           <div>
-            <h4 className="text-xs font-medium text-gray-400 mb-4">{t("destinations")}</h4>
-            <ul className="space-y-2.5">
-              {["Belek", "Side", "Alanya", "Kemer", "Kaş"].map((name) => (
-                <li key={name}>
-                  <Link href={`/regions/${name.toLowerCase()}`} className="text-gray-500 hover:text-white text-xs transition-colors">
-                    {name}
+            <h4 className="text-sm font-semibold text-white mb-5">{t("destinations")}</h4>
+            <ul className="space-y-3">
+              {popularRegions.slice(0, 8).map((region) => (
+                <li key={region.slug}>
+                  <Link href={`/${region.slug}-transfer`} className="text-gray-500 hover:text-white text-sm transition-colors">
+                    {region[`name_${locale}`] || region.name_en}
                   </Link>
                 </li>
               ))}
@@ -45,8 +91,8 @@ export default function Footer() {
 
           {/* Legal */}
           <div>
-            <h4 className="text-xs font-medium text-gray-400 mb-4">{t("legal")}</h4>
-            <ul className="space-y-2.5">
+            <h4 className="text-sm font-semibold text-white mb-5">{t("legal")}</h4>
+            <ul className="space-y-3">
               {[
                 { href: "/privacy", label: t("privacy") },
                 { href: "/terms", label: t("terms") },
@@ -54,7 +100,7 @@ export default function Footer() {
                 { href: "/cancellation", label: t("cancellation") },
               ].map((item) => (
                 <li key={item.href}>
-                  <Link href={item.href} className="text-gray-500 hover:text-white text-xs transition-colors">
+                  <Link href={item.href} className="text-gray-500 hover:text-white text-sm transition-colors">
                     {item.label}
                   </Link>
                 </li>
@@ -64,35 +110,49 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-xs font-medium text-gray-400 mb-4">{t("support")}</h4>
-            <ul className="space-y-2.5">
+            <h4 className="text-sm font-semibold text-white mb-5">{t("support")}</h4>
+            <ul className="space-y-3">
               <li>
-                <a href="mailto:info@veloratransfer.com" className="flex items-center gap-2 text-gray-500 hover:text-white text-xs transition-colors">
-                  <Mail size={12} />
+                <a href="tel:+905431451548" className="flex items-center gap-2 text-gray-500 hover:text-white text-sm transition-colors">
+                  <Phone size={14} />
+                  +90 543 145 15 48
+                </a>
+              </li>
+              <li>
+                <a href="mailto:info@veloratransfer.com" className="flex items-center gap-2 text-gray-500 hover:text-white text-sm transition-colors">
+                  <Mail size={14} />
                   info@veloratransfer.com
                 </a>
               </li>
-              <li className="pt-1">
+              <li>
                 <a
                   href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "905431451548"}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300 text-xs transition-colors"
+                  className="flex items-center gap-2 text-emerald-400 hover:text-emerald-300 text-sm transition-colors"
                 >
-                  <MessageCircle size={12} />
+                  <MessageCircle size={14} />
                   WhatsApp
                 </a>
+              </li>
+              <li className="pt-1">
+                <div className="flex items-start gap-2 text-gray-600 text-sm">
+                  <MapPin size={14} className="flex-shrink-0 mt-0.5" />
+                  <span>Antalya, Türkiye</span>
+                </div>
               </li>
             </ul>
           </div>
         </div>
 
         {/* Bottom */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
           <p className="text-gray-600 text-xs">
             © {currentYear} VELORA Transfer. {t("allRightsReserved")}
           </p>
-          <p className="text-gray-600 text-xs">Antalya, Türkiye</p>
+          <p className="text-gray-600 text-xs">
+            Antalya Airport (AYT) VIP Transfer Service
+          </p>
         </div>
       </div>
     </footer>

@@ -19,7 +19,8 @@ export default function CTASection() {
         <div className="flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/booking"
-            className="inline-flex items-center gap-2 px-8 py-3.5 bg-white text-black text-sm font-medium rounded-full hover:bg-gray-200 transition-colors"
+            className="inline-flex items-center gap-2 px-8 py-3.5 text-sm font-semibold rounded-full transition-all hover:brightness-110"
+            style={{ backgroundColor: '#30D158', color: '#fff' }}
           >
             {t("bookTransfer")}
             <ArrowRight size={14} />

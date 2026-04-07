@@ -2,10 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { createClient } from "@supabase/supabase-js";
 import { sendReservationEmail } from "@/lib/email";
+import { notifyNewPayment } from "@/lib/telegram";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2026-03-25.dahlia",
-});
+function getStripe() {
+  return new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: "2026-03-25.dahlia",
+  });
+}
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -22,7 +25,7 @@ export async function POST(request: NextRequest) {
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(
+    event = getStripe().webhooks.constructEvent(
       body,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET!
@@ -31,10 +34,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object as Stripe.Checkout.Session;
-    const reservationId = session.metadata?.reservation_id;
-    const reservationCode = session.metadata?.reservation_code;
+  if (event.type === "payment_intent.succeeded") {
+    const paymentIntent = event.data.object as Stripe.PaymentIntent;
+    const reservationId = paymentIntent.metadata?.reservation_id;
+    const reservationCode = paymentIntent.metadata?.reservation_code;
 
     if (reservationId) {
       // Update reservation status to paid
@@ -42,10 +45,7 @@ export async function POST(request: NextRequest) {
         .from("reservations")
         .update({
           status: "paid",
-          stripe_payment_intent_id:
-            typeof session.payment_intent === "string"
-              ? session.payment_intent
-              : session.payment_intent?.id ?? null,
+          stripe_payment_intent_id: paymentIntent.id,
         })
         .eq("id", reservationId);
 
@@ -54,65 +54,77 @@ export async function POST(request: NextRequest) {
         type: "payment_received",
         channel: "system",
         recipient: "admin",
-        content: `Payment received for reservation ${reservationCode}. Amount: $${(session.amount_total ?? 0) / 100}`,
-        metadata: { reservation_id: reservationId, session_id: session.id },
+        content: `Payment received for reservation ${reservationCode}. Amount: $${(paymentIntent.amount ?? 0) / 100}`,
+        metadata: { reservation_id: reservationId, payment_intent_id: paymentIntent.id },
       });
 
       // Send confirmation email to customer
       const { data: resData } = await supabase
         .from("reservations")
-        .select("*, regions(name_en, name_tr, name_de, name_pl, name_ru, slug), customers(email, first_name)")
+        .select("*, regions(name_en, name_tr, name_de, name_pl, name_ru, slug), customers(email, first_name, last_name), vehicle_categories(name)")
         .eq("id", reservationId)
         .single();
 
       if (resData?.customers?.email) {
-        const locale = session.success_url?.match(/\/(\w{2})\/booking/)?.[1] ?? "en";
+        const locale = paymentIntent.metadata?.locale ?? "en";
         const regionName =
           resData.regions?.[`name_${locale}` as keyof typeof resData.regions] ??
           resData.regions?.name_en ??
           "";
         const eurRate = resData.exchange_rate_eur ?? 1;
         const totalEur = eurRate > 0 ? resData.total_price / eurRate : resData.total_price;
+        const basePriceEur = eurRate > 0 ? resData.base_price / eurRate : resData.base_price;
+        const nightEur = eurRate > 0 ? resData.night_surcharge / eurRate : resData.night_surcharge;
+        const childSeatEur = eurRate > 0 ? resData.child_seat_fee / eurRate : resData.child_seat_fee;
+        const welcomeEur = eurRate > 0 ? resData.welcome_sign_fee / eurRate : resData.welcome_sign_fee;
+        const rtDiscountEur = eurRate > 0 ? resData.round_trip_discount / eurRate : resData.round_trip_discount;
+        const couponDiscountEur = eurRate > 0 ? resData.coupon_discount / eurRate : resData.coupon_discount;
 
         sendReservationEmail({
           to: resData.customers.email,
           reservationCode: resData.reservation_code,
           firstName: resData.customers.first_name,
+          lastName: resData.customers.last_name ?? "",
           regionName: String(regionName),
           pickupDate: resData.pickup_datetime?.split("T")[0] ?? "",
           pickupTime: resData.pickup_datetime?.split("T")[1]?.slice(0, 5) ?? "",
           tripType: resData.trip_type,
           returnDate: resData.return_datetime?.split("T")[0],
           returnTime: resData.return_datetime?.split("T")[1]?.slice(0, 5),
+          adults: resData.adults ?? 1,
+          children: resData.children ?? 0,
+          luggageCount: resData.luggage_count ?? 0,
+          childSeat: resData.child_seat ?? false,
+          welcomeSign: resData.welcome_sign ?? false,
+          welcomeName: resData.welcome_name,
+          hotelName: resData.hotel_name,
+          flightCode: resData.flight_code,
+          vehicleName: resData.vehicle_categories?.name,
+          basePrice: basePriceEur,
+          nightSurcharge: nightEur,
+          childSeatFee: childSeatEur,
+          welcomeSignFee: welcomeEur,
+          roundTripDiscount: rtDiscountEur,
+          couponDiscount: couponDiscountEur,
           totalEur,
+          qrCodeToken: resData.qr_code_token,
           locale,
         }).catch(() => {});
       }
 
       // Send Telegram notification (fire and forget)
-      const telegramBotToken = process.env.TELEGRAM_BOT_TOKEN;
-      const telegramChatId = process.env.TELEGRAM_CHAT_ID;
-      if (telegramBotToken && telegramChatId) {
-        const message = `💰 New Payment!\n\nCode: ${reservationCode}\nAmount: $${((session.amount_total ?? 0) / 100).toFixed(2)}\nEmail: ${session.customer_email}`;
-        fetch(
-          `https://api.telegram.org/bot${telegramBotToken}/sendMessage`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              chat_id: telegramChatId,
-              text: message,
-              parse_mode: "HTML",
-            }),
-          }
-        ).catch(() => {});
-      }
+      notifyNewPayment({
+        code: reservationCode ?? "?",
+        amount: `${((paymentIntent.amount ?? 0) / 100).toFixed(2)} USD`,
+        email: paymentIntent.receipt_email ?? resData.customers?.email ?? "?",
+        region: String(resData.regions?.name_en ?? ""),
+      }).catch(() => {});
     }
   }
 
-  if (event.type === "checkout.session.expired") {
-    const session = event.data.object as Stripe.Checkout.Session;
-    const reservationId = session.metadata?.reservation_id;
+  if (event.type === "payment_intent.canceled") {
+    const pi = event.data.object as Stripe.PaymentIntent;
+    const reservationId = pi.metadata?.reservation_id;
     if (reservationId) {
       await supabase
         .from("reservations")

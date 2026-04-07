@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -17,7 +18,36 @@ import {
   CreditCard,
   CheckCircle,
   Zap,
+  Navigation,
+  CalendarCheck,
 } from "lucide-react";
+
+const regionImages: Record<string, string> = {
+  belek: "/images/regions/belek-golf.jpg",
+  kemer: "/images/regions/kemer-coast.webp",
+  "kundu-lara": "/images/regions/kundu-lara.jpg",
+  sehirici: "/images/regions/sehirici.jpg",
+  alanya: "/images/regions/alanya-castle.jpg",
+  side: "/images/regions/side-ancient.jpg",
+  kadriye: "/images/regions/kadriye.jpg",
+  bogazkent: "/images/regions/bogazkent.jpg",
+  evrenseki: "/images/regions/evrenseki.jpg",
+  kizilagac: "/images/regions/kizilagac.jpg",
+  okurcalar: "/images/regions/okurcalar.jpg",
+  turkler: "/images/regions/turkler.jpg",
+  mahmutlar: "/images/regions/mahmutlar.jpg",
+  kargicak: "/images/regions/kargicak.jpg",
+  beldibi: "/images/regions/beldibi.jpg",
+  goynuk: "/images/regions/goynuk-canyon.jpg",
+  tekirova: "/images/regions/tekirova.jpg",
+  camyuva: "/images/regions/camyuva.jpg",
+  kiris: "/images/regions/kiris.jpg",
+  adrasan: "/images/regions/adrasan.jpg",
+  kas: "/images/regions/kas-beach.webp",
+  kalkan: "/images/regions/kalkan.jpg",
+  fethiye: "/images/regions/fethiye.jpg",
+  marmaris: "/images/regions/marmaris.jpg",
+};
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -71,20 +101,22 @@ export async function generateMetadata({
     title: metaTitle,
     description: metaDesc,
     alternates: {
-      canonical: `/${locale}/${slug}-transfer`,
+      canonical: `https://veloratransfer.com/${locale}/${slug}-transfer`,
       languages: {
-        tr: `/tr/${slug}-transfer`,
-        en: `/en/${slug}-transfer`,
-        de: `/de/${slug}-transfer`,
-        pl: `/pl/${slug}-transfer`,
-        ru: `/ru/${slug}-transfer`,
+        tr: `https://veloratransfer.com/tr/${slug}-transfer`,
+        en: `https://veloratransfer.com/en/${slug}-transfer`,
+        de: `https://veloratransfer.com/de/${slug}-transfer`,
+        pl: `https://veloratransfer.com/pl/${slug}-transfer`,
+        ru: `https://veloratransfer.com/ru/${slug}-transfer`,
       },
     },
     openGraph: {
       title: metaTitle,
       description: metaDesc,
+      url: `https://veloratransfer.com/${locale}/${slug}-transfer`,
       type: "website",
       siteName: "VELORA Transfer",
+      images: [{ url: "https://veloratransfer.com/images/og-default.jpg", width: 1200, height: 630 }],
     },
   };
 }
@@ -123,9 +155,20 @@ export default async function RegionPage({
     .eq("is_approved", true)
     .limit(6);
 
+  // Fetch other popular regions for cross-linking
+  const { data: otherRegions } = await supabase
+    .from("regions")
+    .select("slug, name_tr, name_en, name_de, name_pl, name_ru, duration_minutes, distance_km, is_popular")
+    .eq("is_active", true)
+    .neq("slug", slug)
+    .eq("is_popular", true)
+    .order("sort_order", { ascending: true })
+    .limit(6);
+
   const name = region[`name_${locale as Locale}`] || region.name_en;
   const description =
     region[`description_${locale as Locale}`] || region.description_en;
+  const regionImage = regionImages[slug] || null;
 
   // Schema.org structured data
   const schemaData = {
@@ -161,7 +204,7 @@ export default async function RegionPage({
         {/* Hero */}
         <section className="relative py-20 overflow-hidden" style={{ background: "linear-gradient(180deg, #1c1c1e 0%, #111113 100%)" }}>
           <div className="absolute inset-0">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px]" style={{ backgroundColor: "rgba(249,115,22,0.06)" }} />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full blur-[100px]" style={{ backgroundColor: "rgba(249,115,22,0.15)" }} />
           </div>
           <div className="relative max-w-7xl mx-auto px-4">
             <div className="flex items-center gap-2 text-sm text-[#555] mb-6">
@@ -172,24 +215,57 @@ export default async function RegionPage({
               <span className="text-white">{name}</span>
             </div>
 
-            <div className="max-w-3xl">
-              <h1 className="text-4xl lg:text-5xl font-bold mb-5 tracking-tight text-white">
-                {t("airportTo", { name })}
-              </h1>
-              <p className="text-lg text-[#86868b] mb-8 leading-relaxed">
-                {description || t("defaultDesc", { name })}
-              </p>
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-10 items-center">
+              <div>
+                <h1 className="text-3xl lg:text-5xl font-bold mb-4 lg:mb-5 tracking-tight text-white">
+                  {t("airportTo", { name })}
+                </h1>
+                <p className="text-base lg:text-lg text-[#86868b] mb-6 lg:mb-8 leading-relaxed">
+                  {description || t("defaultDesc", { name })}
+                </p>
 
-              <div className="flex flex-wrap gap-3">
-                <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl" style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                  <Clock size={16} className="text-orange-400" strokeWidth={1.5} />
-                  <span className="text-sm text-white">~{region.duration_minutes} {t("min")}</span>
+                <div className="flex flex-wrap gap-3 mb-6 lg:mb-8">
+                  <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl" style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                    <Clock size={16} className="text-orange-400" strokeWidth={1.5} />
+                    <span className="text-sm text-white">~{region.duration_minutes} {t("min")}</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl" style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                    <MapPin size={16} className="text-orange-400" strokeWidth={1.5} />
+                    <span className="text-sm text-white">{region.distance_km} km</span>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl" style={{ backgroundColor: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.08)" }}>
-                  <MapPin size={16} className="text-orange-400" strokeWidth={1.5} />
-                  <span className="text-sm text-white">{region.distance_km} km</span>
-                </div>
+
+                {/* Pricing Display */}
+                {pricing && (
+                  <div className="flex flex-wrap gap-4">
+                    <div className="rounded-xl px-5 py-4" style={{ backgroundColor: "rgba(48,209,88,0.08)", border: "1px solid rgba(48,209,88,0.2)" }}>
+                      <div className="text-xs text-gray-400 mb-1">{t("oneWay")}</div>
+                      <div className="text-2xl font-bold text-white">${pricing.one_way_price}</div>
+                      <div className="text-xs text-gray-500">{t("perVehicle")}</div>
+                    </div>
+                    <div className="rounded-xl px-5 py-4" style={{ backgroundColor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
+                      <div className="text-xs text-gray-400 mb-1">{t("roundTrip")}</div>
+                      <div className="text-2xl font-bold text-white">${pricing.round_trip_price}</div>
+                      <div className="text-xs text-gray-500">{t("perVehicle")}</div>
+                    </div>
+                  </div>
+                )}
               </div>
+
+              {/* Region Image */}
+              {regionImage && (
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
+                  <Image
+                    src={regionImage}
+                    alt={t("imageAlt", { name })}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -245,7 +321,8 @@ export default async function RegionPage({
 
                 <Link
                   href={`/booking?region=${slug}`}
-                  className="w-full py-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-orange-500/20"
+                  className="w-full py-4 text-white font-bold rounded-xl transition-all flex items-center justify-center gap-2 hover:brightness-110 shadow-lg"
+                  style={{ backgroundColor: '#30D158', boxShadow: '0 8px 25px rgba(48,209,88,0.25)' }}
                 >
                   {bt("title")} <ArrowRight size={18} />
                 </Link>
@@ -272,6 +349,44 @@ export default async function RegionPage({
                   <span className="text-xs font-medium text-[#86868b]">{label}</span>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* About Region - SEO Content */}
+        <section className="py-16" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="grid lg:grid-cols-5 gap-10">
+              <div className="lg:col-span-3">
+                <h2 className="text-2xl font-bold text-white mb-5 tracking-tight">{t("aboutRegion", { name })}</h2>
+                <p className="text-[#86868b] leading-relaxed mb-6">
+                  {t("aboutDescDefault", { name, duration: region.duration_minutes })}
+                </p>
+                {description && (
+                  <p className="text-[#86868b] leading-relaxed">
+                    {description}
+                  </p>
+                )}
+              </div>
+              <div className="lg:col-span-2">
+                <div className="rounded-2xl p-6" style={{ backgroundColor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}>
+                  <div className="space-y-4">
+                    {[
+                      { icon: Navigation, text: t("highlightDistance", { distance: region.distance_km }) },
+                      { icon: Clock, text: t("highlightDuration", { duration: region.duration_minutes }) },
+                      { icon: CalendarCheck, text: t("highlightAvailable") },
+                      { icon: Users, text: t("highlightMeetGreet") },
+                    ].map(({ icon: Icon, text }) => (
+                      <div key={text} className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: "rgba(249,115,22,0.1)" }}>
+                          <Icon size={14} className="text-orange-400" strokeWidth={1.5} />
+                        </div>
+                        <span className="text-sm text-[#86868b]">{text}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -336,6 +451,52 @@ export default async function RegionPage({
           </div>
         </section>
 
+        {/* Other Popular Destinations */}
+        {otherRegions && otherRegions.length > 0 && (
+          <section className="py-16" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
+            <div className="max-w-7xl mx-auto px-4">
+              <h2 className="text-2xl font-bold text-white mb-8 text-center tracking-tight">{t("otherDestinations")}</h2>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {otherRegions.map((r) => {
+                  const rName = r[`name_${locale as Locale}`] || r.name_en;
+                  const rImage = regionImages[r.slug];
+                  return (
+                    <Link
+                      key={r.slug}
+                      href={`/${r.slug}-transfer`}
+                      className="group rounded-xl overflow-hidden transition-all hover:scale-[1.02]"
+                      style={{ backgroundColor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+                    >
+                      {rImage && (
+                        <div className="relative h-36 overflow-hidden">
+                          <Image
+                            src={rImage}
+                            alt={t("imageAlt", { name: rName })}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                        </div>
+                      )}
+                      <div className="p-4">
+                        <h3 className="font-semibold text-white text-sm mb-2 group-hover:text-orange-400 transition-colors">{rName} Transfer</h3>
+                        <div className="flex items-center gap-3 text-xs text-gray-500">
+                          <span className="flex items-center gap-1"><Clock size={12} /> ~{r.duration_minutes} {t("min")}</span>
+                          <span className="flex items-center gap-1"><MapPin size={12} /> {r.distance_km} km</span>
+                        </div>
+                        <div className="mt-3 flex items-center gap-1 text-xs font-medium text-orange-400 group-hover:gap-2 transition-all">
+                          {t("viewTransfer")} <ArrowRight size={12} />
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* CTA */}
         <section className="py-16" style={{ borderTop: "1px solid rgba(255,255,255,0.04)" }}>
           <div className="max-w-2xl mx-auto px-4 text-center">
@@ -343,7 +504,8 @@ export default async function RegionPage({
             <p className="text-[#86868b] mb-8">{t("readyDesc")}</p>
             <Link
               href={`/booking?region=${slug}`}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold rounded-xl transition-all shadow-lg shadow-orange-500/20"
+              className="inline-flex items-center gap-2 px-8 py-4 text-white font-bold rounded-xl transition-all hover:brightness-110 shadow-lg"
+              style={{ backgroundColor: '#30D158', boxShadow: '0 8px 25px rgba(48,209,88,0.25)' }}
             >
               {t("bookNow")} <ArrowRight size={18} />
             </Link>
