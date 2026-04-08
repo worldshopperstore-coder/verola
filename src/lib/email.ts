@@ -1,9 +1,15 @@
 import { Resend } from "resend";
+import { getConfig } from "@/lib/config";
 
 let _resend: Resend | null = null;
-function getResend() {
-  if (!process.env.RESEND_API_KEY) return null;
-  if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY);
+let _resendKey: string = "";
+async function getResend() {
+  const apiKey = await getConfig("resend_api_key");
+  if (!apiKey) return null;
+  if (!_resend || _resendKey !== apiKey) {
+    _resend = new Resend(apiKey);
+    _resendKey = apiKey;
+  }
   return _resend;
 }
 
@@ -430,7 +436,7 @@ function row(label: string, value: string, color?: string): string {
 
 // ─── Send reservation voucher email ───
 export async function sendReservationEmail(data: ReservationEmailData) {
-  const resend = getResend();
+  const resend = await getResend();
   if (!resend) return;
 
   const qrDataUrl = data.qrCodeToken

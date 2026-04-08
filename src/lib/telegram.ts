@@ -43,8 +43,9 @@ function buildHTML({ title, icon, fields, footer }: TelegramMessageOptions): str
 }
 
 export async function sendTelegram(options: TelegramMessageOptions): Promise<void> {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const { getConfig } = await import("@/lib/config");
+  const token = await getConfig("telegram_bot_token");
+  const chatId = await getConfig("telegram_chat_id");
 
   if (!token || !chatId || token === "placeholder") return;
 
