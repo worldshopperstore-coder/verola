@@ -6,6 +6,7 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import PriceTag from "@/components/PriceTag";
 import { Link } from "@/i18n/routing";
 import {
   MapPin,
@@ -254,12 +255,12 @@ export default async function RegionPage({
                   <div className="flex flex-wrap gap-4 mb-5">
                     <div className="rounded-xl px-5 py-4" style={{ backgroundColor: "rgba(48,209,88,0.08)", border: "1px solid rgba(48,209,88,0.2)" }}>
                       <div className="text-xs text-gray-400 mb-1">{t("oneWay")}</div>
-                      <div className="text-2xl font-bold text-white">${pricing.one_way_price}</div>
+                      <div className="text-2xl font-bold text-white"><PriceTag amount={pricing.one_way_price} /></div>
                       <div className="text-xs text-gray-500">{t("perVehicle")}</div>
                     </div>
                     <div className="rounded-xl px-5 py-4" style={{ backgroundColor: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)" }}>
                       <div className="text-xs text-gray-400 mb-1">{t("roundTrip")}</div>
-                      <div className="text-2xl font-bold text-white">${pricing.round_trip_price}</div>
+                      <div className="text-2xl font-bold text-white"><PriceTag amount={pricing.round_trip_price} /></div>
                       <div className="text-xs text-gray-500">{t("perVehicle")}</div>
                     </div>
                   </div>

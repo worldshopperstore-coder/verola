@@ -389,7 +389,25 @@
     "whatsapp": "WhatsApp İletişim",
     "allRightsReserved": "Tüm hakları saklıdır.",
     "description": "Antalya Havalimanı'ndan tüm bölgelere VIP özel transfer hizmeti.",
-    "destinations": "Destinasyonlar"
+    "destinations": "Destinasyonlar",
+    "tagline": "Antalya Havalimanı (AYT) VIP Transfer Hizmeti"
+  },
+  "cookieConsent": {
+    "message": "Deneyiminizi iyileştirmek için çerezler kullanıyoruz. Sitemizi kullanmaya devam ederek çerez politikamızı kabul etmiş olursunuz.",
+    "learnMore": "Daha Fazla Bilgi",
+    "accept": "Kabul Et",
+    "decline": "Reddet"
+  },
+  "notFound": {
+    "title": "Sayfa Bulunamadı",
+    "description": "Aradığınız sayfa mevcut değil veya taşınmış.",
+    "goHome": "Ana Sayfaya Dön"
+  },
+  "error": {
+    "title": "Bir Hata Oluştu",
+    "description": "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.",
+    "tryAgain": "Tekrar Dene",
+    "goHome": "Ana Sayfaya Dön"
   },
   "common": {
     "currency": "Para Birimi",
@@ -608,5 +626,28 @@
     "status_completed": "Tamamlandı",
     "status_cancel_requested": "İptal Talebi",
     "status_cancelled": "İptal Edildi"
+  },
+  "kvkk": {
+    "title": "KVKK / GDPR",
+    "heading": "Kişisel Verilerin Korunması",
+    "subtitle": "Kişisel verilerinizin nasıl korunduğu ve işlendiği hakkında bilgi.",
+    "lastUpdated": "Son Güncelleme: Ocak 2025",
+    "s1Title": "1. Veri Sorumlusu",
+    "s1Text": "VELORA Transfer, Antalya, Türkiye merkezli olarak 6698 sayılı KVKK ve GDPR kapsamında kişisel verilerinizin işlenmesinden sorumlu veri sorumlusudur.",
+    "s2Title": "2. Toplanan Kişisel Veriler",
+    "s2Text": "Aşağıdaki kişisel verileri topluyoruz ve işliyoruz:",
+    "s2Items": "Ad, soyad ve iletişim bilgileri (telefon, e-posta)|Havalimanı transferleri için pasaport veya kimlik bilgileri|Uçuş bilgileri ve seyahat tarihleri|Ödeme bilgileri (Stripe üzerinden güvenli işlenir)|Web sitesi güvenliği için IP adresi ve tarayıcı verileri",
+    "s3Title": "3. Veri İşleme Amaçları",
+    "s3Text": "Kişisel verileriniz aşağıdaki amaçlarla işlenmektedir:",
+    "s3Items": "Transfer hizmetinizi sağlamak ve yönetmek|Rezervasyon onayları ve güncellemeleri iletmek|Ödemeleri güvenli şekilde işlemek|Yasal yükümlülüklere uymak|Hizmetlerimizi ve müşteri deneyimini iyileştirmek",
+    "s4Title": "4. Veri Saklama",
+    "s4Text": "Kişisel verileriniz, yukarıda belirtilen amaçları yerine getirmek için gerekli olan minimum süre boyunca ve yürürlükteki yasal gereksinimlere uygun olarak saklanır. Rezervasyon verileri vergi ve ticaret mevzuatına uygun olarak 5 yıl saklanır.",
+    "s5Title": "5. Haklarınız",
+    "s5Text": "KVKK ve GDPR kapsamında kişisel verilerinize ilişkin aşağıdaki haklara sahipsiniz:",
+    "s5Items": "Kişisel verilerinize erişim hakkı|Yanlış verilerin düzeltilmesini talep etme hakkı|Verilerinizin silinmesini talep etme hakkı|Veri işlemeye itiraz etme hakkı|Veri taşınabilirliği hakkı|İstediğiniz zaman onayınızı geri çekme hakkı",
+    "s6Title": "6. Veri Güvenliği",
+    "s6Text": "Kişisel verilerinizi yetkisiz erişime, değiştirmeye, ifşa etmeye veya imhaya karşı korumak için uygun teknik ve organizasyonel önlemler uyguluyoruz. Tüm ödeme verileri PCI-DSS uyumlu Stripe altyapısı üzerinden işlenmektedir.",
+    "s7Title": "7. İletişim",
+    "s7Text": "Kişisel verilerinizle ilgili sorularınız veya haklarınızı kullanmak için info@veloratransfer.com adresinden veya +90 543 145 15 48 numarasından bize ulaşabilirsiniz."
   }
 }

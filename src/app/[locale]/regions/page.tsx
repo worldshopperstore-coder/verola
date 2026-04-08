@@ -6,6 +6,7 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import PriceTag from "@/components/PriceTag";
 import { Link } from "@/i18n/routing";
 import { MapPin, Clock, ArrowUpRight } from "lucide-react";
 
@@ -131,7 +132,7 @@ export default async function RegionsPage({
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                         {pricingData?.one_way_price && (
                           <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-lg text-sm font-bold text-white" style={{ backgroundColor: "rgba(0,0,0,0.6)", backdropFilter: "blur(8px)" }}>
-                            ${pricingData.one_way_price}
+                            <PriceTag amount={pricingData.one_way_price} />
                           </div>
                         )}
                       </div>

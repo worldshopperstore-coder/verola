@@ -389,7 +389,25 @@
     "whatsapp": "WhatsApp Contact",
     "allRightsReserved": "All rights reserved.",
     "description": "VIP private transfer service from Antalya Airport to all regions.",
-    "destinations": "Destinations"
+    "destinations": "Destinations",
+    "tagline": "Antalya Airport (AYT) VIP Transfer Service"
+  },
+  "cookieConsent": {
+    "message": "We use cookies to improve your experience. By continuing to use this site, you agree to our cookie policy.",
+    "learnMore": "Learn More",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "The page you are looking for does not exist or has been moved.",
+    "goHome": "Go Home"
+  },
+  "error": {
+    "title": "Something Went Wrong",
+    "description": "An unexpected error occurred. Please try again.",
+    "tryAgain": "Try Again",
+    "goHome": "Go Home"
   },
   "common": {
     "currency": "Currency",
@@ -608,5 +626,28 @@
     "status_completed": "Completed",
     "status_cancel_requested": "Cancel Requested",
     "status_cancelled": "Cancelled"
+  },
+  "kvkk": {
+    "title": "GDPR / KVKK",
+    "heading": "Data Protection Policy",
+    "subtitle": "Information about how we protect and process your personal data.",
+    "lastUpdated": "Last Updated: January 2025",
+    "s1Title": "1. Data Controller",
+    "s1Text": "VELORA Transfer, operating from Antalya, Turkey, is the data controller responsible for processing your personal data in accordance with KVKK (Law No. 6698) and GDPR.",
+    "s2Title": "2. Personal Data We Collect",
+    "s2Text": "We collect and process the following personal data:",
+    "s2Items": "Name, surname, and contact information (phone, email)|Passport or ID details for airport transfers|Flight information and travel dates|Payment information (processed securely via Stripe)|IP address and browser data for website security",
+    "s3Title": "3. Purpose of Data Processing",
+    "s3Text": "Your personal data is processed for the following purposes:",
+    "s3Items": "To provide and manage your transfer service|To communicate booking confirmations and updates|To process payments securely|To comply with legal obligations|To improve our services and customer experience",
+    "s4Title": "4. Data Retention",
+    "s4Text": "Your personal data is retained for the minimum period necessary to fulfill the purposes described above, and in compliance with applicable legal requirements. Booking data is kept for 5 years in accordance with tax and commercial legislation.",
+    "s5Title": "5. Your Rights",
+    "s5Text": "Under KVKK and GDPR, you have the following rights regarding your personal data:",
+    "s5Items": "Right to access your personal data|Right to request correction of inaccurate data|Right to request deletion of your data|Right to object to data processing|Right to data portability|Right to withdraw consent at any time",
+    "s6Title": "6. Data Security",
+    "s6Text": "We implement appropriate technical and organizational measures to protect your personal data against unauthorized access, alteration, disclosure, or destruction. All payment data is processed through PCI-DSS compliant Stripe infrastructure.",
+    "s7Title": "7. Contact",
+    "s7Text": "For questions regarding your personal data or to exercise your rights, please contact us at info@veloratransfer.com or call +90 543 145 15 48."
   }
 }

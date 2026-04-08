@@ -2,10 +2,10 @@
   "name": "VELORA Transfer",
   "short_name": "VELORA",
   "description": "Antalya Airport VIP Transfer Service",
-  "start_url": "/tr",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#111113",
-  "theme_color": "#30D158",
+  "theme_color": "#111113",
   "icons": [
     {
       "src": "/images/icon-192.png",

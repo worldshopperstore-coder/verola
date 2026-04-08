@@ -5,10 +5,13 @@ import { CheckCircle, Phone, Mail, Download, Search } from "lucide-react";
 
 export default async function BookingSuccessPage({
   searchParams,
+  params,
 }: {
   searchParams: Promise<Record<string, string | undefined>>;
+  params: Promise<{ locale: string }>;
 }) {
   const sp = await searchParams;
+  const { locale } = await params;
   const code = sp.code ?? "—";
   const t = await getTranslations("bookingSuccess");
 
@@ -69,7 +72,7 @@ export default async function BookingSuccessPage({
           {/* Download PDF Voucher */}
           <div className="mb-4">
             <a
-              href={`/api/voucher?code=${encodeURIComponent(code)}&locale=${sp.locale ?? "en"}`}
+              href={`/api/voucher?code=${encodeURIComponent(code)}&locale=${locale}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all shadow-lg shadow-orange-500/25"
@@ -82,7 +85,7 @@ export default async function BookingSuccessPage({
           {/* Track Reservation */}
           <div className="mb-8">
             <a
-              href={`/${sp.locale ?? "en"}/track`}
+              href={`/${locale}/track`}
               className="inline-flex items-center gap-2 px-6 py-3 border border-white/10 font-medium rounded-xl hover:bg-white/5 transition-colors text-gray-300 text-sm"
             >
               <Search size={16} />

@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { seoAlternates, seoOpenGraph } from "@/lib/seo";
 import { notFound } from "next/navigation";
 import Image from "next/image";
+import sanitizeHtml from "sanitize-html";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -77,7 +78,19 @@ export default async function BlogPostPage({
   if (!post) notFound();
 
   const title = post[`title_${loc}`] || post.title_en || "Untitled";
-  const content = post[`content_${loc}`] || post.content_en || "";
+  const rawContent = post[`content_${loc}`] || post.content_en || "";
+  const content = sanitizeHtml(rawContent, {
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(["img", "iframe", "video", "source"]),
+    allowedAttributes: {
+      ...sanitizeHtml.defaults.allowedAttributes,
+      img: ["src", "alt", "width", "height", "loading", "class"],
+      iframe: ["src", "width", "height", "frameborder", "allowfullscreen"],
+      video: ["src", "controls", "width", "height"],
+      source: ["src", "type"],
+      "*": ["class", "id", "style"],
+    },
+    allowedIframeHostnames: ["www.youtube.com", "www.google.com"],
+  });
 
   // Calculate reading time
   const wordCount = content.replace(/<[^>]*>/g, "").split(/\s+/).length;

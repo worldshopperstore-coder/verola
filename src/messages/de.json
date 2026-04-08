@@ -389,7 +389,25 @@
     "whatsapp": "WhatsApp Kontakt",
     "allRightsReserved": "Alle Rechte vorbehalten.",
     "description": "VIP Privattransfer vom Flughafen Antalya in alle Regionen.",
-    "destinations": "Ziele"
+    "destinations": "Ziele",
+    "tagline": "Antalya Flughafen (AYT) VIP Transfer Service"
+  },
+  "cookieConsent": {
+    "message": "Wir verwenden Cookies, um Ihre Erfahrung zu verbessern. Durch die weitere Nutzung stimmen Sie unserer Cookie-Richtlinie zu.",
+    "learnMore": "Mehr erfahren",
+    "accept": "Akzeptieren",
+    "decline": "Ablehnen"
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "description": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+    "goHome": "Zur Startseite"
+  },
+  "error": {
+    "title": "Ein Fehler ist aufgetreten",
+    "description": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+    "tryAgain": "Erneut versuchen",
+    "goHome": "Zur Startseite"
   },
   "common": {
     "currency": "Währung",
@@ -608,5 +626,28 @@
     "status_completed": "Abgeschlossen",
     "status_cancel_requested": "Stornierung Angefragt",
     "status_cancelled": "Storniert"
+  },
+  "kvkk": {
+    "title": "DSGVO / KVKK",
+    "heading": "Datenschutzrichtlinie",
+    "subtitle": "Informationen darüber, wie wir Ihre personenbezogenen Daten schützen und verarbeiten.",
+    "lastUpdated": "Letzte Aktualisierung: Januar 2025",
+    "s1Title": "1. Verantwortlicher",
+    "s1Text": "VELORA Transfer mit Sitz in Antalya, Türkei, ist der für die Verarbeitung Ihrer personenbezogenen Daten gemäß KVKK (Gesetz Nr. 6698) und DSGVO verantwortliche Datenverantwortliche.",
+    "s2Title": "2. Erhobene personenbezogene Daten",
+    "s2Text": "Wir erheben und verarbeiten die folgenden personenbezogenen Daten:",
+    "s2Items": "Name und Kontaktdaten (Telefon, E-Mail)|Reisepass- oder Ausweisdaten für Flughafentransfers|Fluginformationen und Reisedaten|Zahlungsinformationen (sicher verarbeitet über Stripe)|IP-Adresse und Browserdaten für die Website-Sicherheit",
+    "s3Title": "3. Zweck der Datenverarbeitung",
+    "s3Text": "Ihre personenbezogenen Daten werden für folgende Zwecke verarbeitet:",
+    "s3Items": "Bereitstellung und Verwaltung Ihres Transferservices|Kommunikation von Buchungsbestätigungen und Updates|Sichere Zahlungsabwicklung|Einhaltung gesetzlicher Verpflichtungen|Verbesserung unserer Dienstleistungen und Kundenerfahrung",
+    "s4Title": "4. Datenspeicherung",
+    "s4Text": "Ihre personenbezogenen Daten werden für den zur Erfüllung der oben beschriebenen Zwecke erforderlichen Mindestzeitraum und in Übereinstimmung mit den geltenden gesetzlichen Anforderungen aufbewahrt. Buchungsdaten werden gemäß Steuer- und Handelsgesetzgebung 5 Jahre aufbewahrt.",
+    "s5Title": "5. Ihre Rechte",
+    "s5Text": "Gemäß KVKK und DSGVO haben Sie folgende Rechte bezüglich Ihrer personenbezogenen Daten:",
+    "s5Items": "Recht auf Zugang zu Ihren personenbezogenen Daten|Recht auf Berichtigung unrichtiger Daten|Recht auf Löschung Ihrer Daten|Recht auf Widerspruch gegen die Datenverarbeitung|Recht auf Datenübertragbarkeit|Recht auf jederzeitigen Widerruf der Einwilligung",
+    "s6Title": "6. Datensicherheit",
+    "s6Text": "Wir setzen geeignete technische und organisatorische Maßnahmen um, um Ihre personenbezogenen Daten vor unbefugtem Zugriff, Änderung, Offenlegung oder Vernichtung zu schützen. Alle Zahlungsdaten werden über die PCI-DSS-konforme Stripe-Infrastruktur verarbeitet.",
+    "s7Title": "7. Kontakt",
+    "s7Text": "Bei Fragen zu Ihren personenbezogenen Daten oder zur Ausübung Ihrer Rechte wenden Sie sich bitte an info@veloratransfer.com oder rufen Sie +90 543 145 15 48 an."
   }
 }

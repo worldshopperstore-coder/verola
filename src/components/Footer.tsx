@@ -98,6 +98,7 @@ export default function Footer() {
                 { href: "/terms", label: t("terms") },
                 { href: "/cookies", label: t("cookies") },
                 { href: "/cancellation", label: t("cancellation") },
+                { href: "/kvkk", label: t("kvkk") },
               ].map((item) => (
                 <li key={item.href}>
                   <Link href={item.href} className="text-gray-500 hover:text-white text-sm transition-colors">
@@ -151,7 +152,7 @@ export default function Footer() {
             © {currentYear} VELORA Transfer. {t("allRightsReserved")}
           </p>
           <p className="text-gray-600 text-xs">
-            Antalya Airport (AYT) VIP Transfer Service
+            {t("tagline")}
           </p>
         </div>
       </div>

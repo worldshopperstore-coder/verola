@@ -3,6 +3,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Inter } from "next/font/google";
 import { routing } from "@/i18n/routing";
+import CookieConsent from "@/components/CookieConsent";
 import "../globals.css";
 
 const inter = Inter({
@@ -34,6 +35,7 @@ export default async function LocaleLayout({
       <body className="min-h-full flex flex-col font-sans antialiased" style={{ backgroundColor: '#111113', color: '#f5f5f7' }} suppressHydrationWarning>
         <NextIntlClientProvider messages={messages}>
           {children}
+          <CookieConsent />
         </NextIntlClientProvider>
       </body>
     </html>
